@@ -2,16 +2,15 @@
 using AspBoot.Service;
 using AspBoot.Utils;
 using AutoMapper;
-using OshService.Data;
 
 namespace OshService.Domain.User;
 
 [Service]
-public class UserService(DatabaseContext context, IMapper mapper)
+public class UserService(UserRepository repository, IMapper mapper)
 {
     public Result<UserViewRead, UserStatusEnum> Register(UserViewCreate view)
     {
-        if (context.User.FirstOrDefault(e => e.Login == view.Login) != null)
+        if (repository.GetByLogin(view.Login) != null)
         {
             return new Result<UserViewRead, UserStatusEnum>(UserStatusEnum.UserLoginExists);
         }
@@ -22,8 +21,7 @@ public class UserService(DatabaseContext context, IMapper mapper)
         user.PasswordHash = passwordHash;
         user.PasswordSalt = passwordSalt;
 
-        context.User.Add(user);
-        context.SaveChanges();
+        repository.Create(user);
 
         return new Result<UserViewRead, UserStatusEnum>(mapper.Map<UserViewRead>(user));
     }

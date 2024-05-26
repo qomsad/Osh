@@ -5,17 +5,17 @@ using AspBoot.Handler;
 using AspBoot.Service;
 using AspBoot.Utils;
 using Microsoft.IdentityModel.Tokens;
-using OshService.Data;
+using OshService.Domain.User;
 using OshService.Options;
 
 namespace OshService.Auth;
 
 [Service]
-public class AuthService(DatabaseContext context, IConfiguration configuration)
+public class AuthService(UserRepository repository, IConfiguration configuration)
 {
     public Result<AuthResponse, AuthStatusEnum> Authenticate(AuthRequest request)
     {
-        var user = context.User.FirstOrDefault(e => e.Login == request.Login);
+        var user = repository.GetByLogin(request.Login);
 
         if (user == null)
         {

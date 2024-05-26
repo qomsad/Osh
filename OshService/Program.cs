@@ -1,5 +1,6 @@
 using System.Reflection;
 using AspBoot.Configuration;
+using AspBoot.Repository;
 using AspBoot.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -75,6 +76,7 @@ public static class Program
 
         builder.Services.AddControllers();
         builder.Services.AddServices(Assembly.GetExecutingAssembly());
+        builder.Services.AddRepositories(Assembly.GetExecutingAssembly());
         builder.Services.AddAutoMapper(setup =>
             setup.AddMaps(Assembly.GetExecutingAssembly())
         );
