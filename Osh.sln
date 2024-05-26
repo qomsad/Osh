@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OshService", "OshService\Os
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspBoot", "AspBoot\AspBoot.csproj", "{BA9115A8-D44A-46B1-B3DA-048920EF6378}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "OshWebapp", "OshWebapp\OshWebapp.esproj", "{80357D1F-58CC-4E1A-B11A-6504FD36909D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
