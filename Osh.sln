@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OshService", "OshService\OshService.csproj", "{055FD859-7420-4249-8698-3A3765C8A3D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspBoot", "AspBoot\AspBoot.csproj", "{BA9115A8-D44A-46B1-B3DA-048920EF6378}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{055FD859-7420-4249-8698-3A3765C8A3D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{055FD859-7420-4249-8698-3A3765C8A3D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{055FD859-7420-4249-8698-3A3765C8A3D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA9115A8-D44A-46B1-B3DA-048920EF6378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA9115A8-D44A-46B1-B3DA-048920EF6378}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA9115A8-D44A-46B1-B3DA-048920EF6378}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA9115A8-D44A-46B1-B3DA-048920EF6378}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

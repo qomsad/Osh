@@ -1,0 +1,3 @@
+[submodule "AspBoot"]
+	path = AspBoot
+	url = https://github.com/qomsad/AspBoot
