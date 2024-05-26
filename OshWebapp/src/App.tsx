@@ -1,9 +1,19 @@
+import { useEffect, useState } from "react";
+
 function App() {
-  return (
-    <>
-      <p className="read-the-docs">Hello world!</p>
-    </>
-  );
+  const [data, setData] = useState<string>();
+
+  useEffect(() => {
+    (async function () {
+      const response = await fetch("/api/test");
+      const t = await response.text();
+      setData(t);
+    })();
+  }, []);
+
+  const content = data === undefined ? <p>Loading</p> : <p>{data}</p>;
+
+  return <>{content}</>;
 }
 
 export { App };
