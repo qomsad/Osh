@@ -4,6 +4,7 @@ using AspBoot.Configuration;
 using AspBoot.Handler;
 using AspBoot.Service;
 using AspBoot.Utils;
+using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using OshService.Domain.User.User;
 using OshService.Options;
@@ -11,7 +12,7 @@ using OshService.Options;
 namespace OshService.Auth;
 
 [Service]
-public class AuthService(UserRepository repository, IConfiguration configuration)
+public class AuthService(UserRepository repository, IConfiguration configuration, IMapper mapper)
 {
     private readonly Jwt jwt = configuration.GetParam<Jwt>();
 
@@ -29,8 +30,11 @@ public class AuthService(UserRepository repository, IConfiguration configuration
             return new Result<AuthStatusEnum>(AuthStatusEnum.UserPasswordMismatch);
         }
 
-        var response =
-            new AuthResponse { Login = user.Login, JwtToken = GenerateToken(user.Login, user.Type.ToString()) };
+
+        var response = new AuthResponse
+        {
+            JwtToken = GenerateToken(user.Login, user.Type.ToString()), User = mapper.Map<UserViewRead>(user)
+        };
 
         return new Result<AuthStatusEnum>(response);
     }
