@@ -5,7 +5,7 @@ using AspBoot.Handler;
 using AspBoot.Service;
 using AspBoot.Utils;
 using Microsoft.IdentityModel.Tokens;
-using OshService.Domain.User;
+using OshService.Domain.User.User;
 using OshService.Options;
 
 namespace OshService.Auth;
@@ -13,29 +13,29 @@ namespace OshService.Auth;
 [Service]
 public class AuthService(UserRepository repository, IConfiguration configuration)
 {
-    public Result<AuthResponse, AuthStatusEnum> Authenticate(AuthRequest request)
+    private readonly Jwt jwt = configuration.GetParam<Jwt>();
+
+    public Result<AuthStatusEnum> Authenticate(AuthRequest request)
     {
         var user = repository.GetByLogin(request.Login);
 
         if (user == null)
         {
-            return new Result<AuthResponse, AuthStatusEnum>(AuthStatusEnum.UserNotFound);
+            return new Result<AuthStatusEnum>(AuthStatusEnum.UserNotFound);
         }
 
         if (!HashUtils.VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt))
         {
-            return new Result<AuthResponse, AuthStatusEnum>(AuthStatusEnum.UserPasswordMismatch);
+            return new Result<AuthStatusEnum>(AuthStatusEnum.UserPasswordMismatch);
         }
 
-        var response = new AuthResponse
-        {
-            Login = user.Login, JwtToken = GenerateToken(user.Login, "1", configuration.GetParam<Jwt>())
-        };
+        var response =
+            new AuthResponse { Login = user.Login, JwtToken = GenerateToken(user.Login, user.Type.ToString()) };
 
-        return new Result<AuthResponse, AuthStatusEnum>(response);
+        return new Result<AuthStatusEnum>(response);
     }
 
-    public static string GenerateToken(string username, string role, Jwt jwt)
+    public string GenerateToken(string username, string role)
     {
         List<Claim> claims =
         [

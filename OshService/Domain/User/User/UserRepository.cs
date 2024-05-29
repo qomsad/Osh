@@ -5,10 +5,10 @@ using OshService.Data;
 namespace OshService.Domain.User.User;
 
 [Repository]
-public class UserRepository(DatabaseContext context) : QueryableRepository<UserModel, long, long>(context)
+public class UserRepository(DatabaseContext context) : Repository<UserModel, long>(context)
 {
     public UserModel? GetByLogin(string login)
     {
-        return Get(entity => entity.Login == login);
+        return GetOne(q => q.Where(entity => entity.Login == login));
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using OshService.Domain.User.UserAdministrator;
 
 namespace OshService.Domain.Organization;
 
 [Table("organization")]
+[Index(nameof(Url), IsUnique = true)]
 public class OrganizationModel
 {
     [Key]
@@ -22,5 +24,5 @@ public class OrganizationModel
     public required long UserAdministratorId { get; set; }
 
     [ForeignKey(nameof(UserAdministratorId))]
-    public required UserAdministratorModel Administrator { get; set; }
+    public UserAdministratorModel Administrator { get; set; } = null!;
 }

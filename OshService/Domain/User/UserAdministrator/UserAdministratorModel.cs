@@ -8,11 +8,8 @@ namespace OshService.Domain.User.UserAdministrator;
 [Table("user_administrator")]
 public class UserAdministratorModel() : UserModel(UserType.Admin)
 {
-    [Column("position"), MaxLength(255)]
-    public required string Position { get; set; }
-
-    [Column("department"), MaxLength(255)]
-    public string? Department { get; set; }
+    [Column("email"), MaxLength(255)]
+    public required string Email { get; set; }
 
     [Column("manage_organization_id")]
     public long? ManageOrganizationId { get; set; }

@@ -2,6 +2,8 @@ using System.Reflection;
 using AspBoot.Configuration;
 using AspBoot.Repository;
 using AspBoot.Service;
+using FluentValidation;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -69,12 +71,14 @@ public static class Program
             setup.OperationFilter<SecurityRequirementsOperationFilter>(true, JwtBearerDefaults.AuthenticationScheme);
             setup.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
         });
+        builder.Services.AddFluentValidationRulesToSwagger();
 
         builder.Services.AddDbContext<DatabaseContext>(setup =>
             setup.UseNpgsql(builder.Configuration.GetConnectionString("Docker"))
         );
 
         builder.Services.AddControllers();
+        builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         builder.Services.AddServices(Assembly.GetExecutingAssembly());
         builder.Services.AddRepositories(Assembly.GetExecutingAssembly());
         builder.Services.AddAutoMapper(setup =>

@@ -1,4 +1,5 @@
-﻿using System.Net.Mime;
+﻿using System.Net;
+using System.Net.Mime;
 using AspBoot.Handler;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -13,14 +14,15 @@ public class AuthController(AuthService service) : Controller
 {
     [HttpPost("login")]
     [SwaggerOperation("Аутентификация", "Аутентификация в системе")]
-    [SwaggerResponse(200, "Успешная аутентификация", typeof(AuthResponse))]
-    [SwaggerResponse(404, "Пользователь не найден", typeof(Status<AuthStatusEnum>))]
-    [SwaggerResponse(401, "Неверный пароль", typeof(Status<AuthStatusEnum>))]
+    [SwaggerResponse((int) HttpStatusCode.OK, "Успешная аутентификация", typeof(AuthResponse))]
+    [SwaggerResponse((int) HttpStatusCode.NotFound, "Пользователь не найден", typeof(Status<AuthStatusEnum>))]
+    [SwaggerResponse((int) HttpStatusCode.Unauthorized, "Неверный пароль", typeof(Status<AuthStatusEnum>))]
     public IActionResult Login([FromBody, SwaggerRequestBody] AuthRequest request)
     {
-        return service.Authenticate(request)
-            .OnStatus(AuthStatusEnum.UserNotFound, NotFound)
-            .OnStatus(AuthStatusEnum.UserPasswordMismatch, Unauthorized)
+        return new Response<AuthRequest, AuthStatusEnum>()
+            .Handle(_ => service.Authenticate(request))
+            .OnStatus(AuthStatusEnum.UserNotFound, HttpResult.NotFound)
+            .OnStatus(AuthStatusEnum.UserPasswordMismatch, HttpResult.Unauthorized)
             .Respond();
     }
 }
