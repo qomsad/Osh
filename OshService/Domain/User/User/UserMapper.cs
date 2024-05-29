@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace OshService.Domain.User;
+namespace OshService.Domain.User.User;
 
 public class UserMapper : Profile
 {

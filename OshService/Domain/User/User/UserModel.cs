@@ -2,16 +2,19 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace OshService.Domain.User;
+namespace OshService.Domain.User.User;
 
 [Table("user")]
 [Index(nameof(Login), IsUnique = true)]
-public class UserModel
+public class UserModel(UserType type)
 {
     [Key]
     [Column("id")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long Id { get; set; }
+
+    [Column("type")]
+    public UserType Type { get; } = type;
 
     [Column("login")]
     public required string Login { get; set; }
@@ -30,4 +33,10 @@ public class UserModel
 
     [Column("last_name")]
     public string? LastName { get; set; }
+}
+
+public enum UserType
+{
+    Admin,
+    Employee,
 }

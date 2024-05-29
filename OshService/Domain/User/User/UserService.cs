@@ -3,7 +3,7 @@ using AspBoot.Service;
 using AspBoot.Utils;
 using AutoMapper;
 
-namespace OshService.Domain.User;
+namespace OshService.Domain.User.User;
 
 [Service]
 public class UserService(UserRepository repository, IMapper mapper)

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace OshService.Domain.User;
+namespace OshService.Domain.User.User;
 
 [ApiController]
 [Route("api/user")]

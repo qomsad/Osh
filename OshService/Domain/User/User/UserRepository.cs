@@ -2,7 +2,7 @@
 using AspBoot.Repository;
 using OshService.Data;
 
-namespace OshService.Domain.User;
+namespace OshService.Domain.User.User;
 
 [Repository]
 public class UserRepository(DatabaseContext context) : QueryableRepository<UserModel, long, long>(context)
