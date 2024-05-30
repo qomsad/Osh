@@ -51,7 +51,7 @@ public class OshProgramModel
     public int? MaxAutoAssignments { get; set; }
 
     [Column("training_success_rate")]
-    public required int TrainingSuccessRate { get; set; }
+    public int TrainingSuccessRate { get; set; } = 0;
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]

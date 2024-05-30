@@ -10,6 +10,5 @@ public class OshProgramValidator : AbstractValidator<OshProgramViewCreate>
         RuleFor(e => e.MaxAutoAssignments).GreaterThan(0);
         RuleFor(e => e.LearningMinutesDuration).GreaterThan(0);
         RuleFor(e => e.TrainingMinutesDuration).GreaterThan(0);
-        RuleFor(e => e.TrainingSuccessRate).GreaterThan(0);
     }
 }

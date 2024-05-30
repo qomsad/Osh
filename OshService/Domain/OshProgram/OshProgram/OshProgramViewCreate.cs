@@ -15,6 +15,4 @@ public class OshProgramViewCreate
     public required OshProgramAutoAssignment AutoAssignmentType { get; set; }
 
     public int? MaxAutoAssignments { get; set; }
-
-    public required int TrainingSuccessRate { get; set; }
 }
