@@ -17,7 +17,7 @@ public class SpecialtyModel
     public required long OrganizationId { get; set; }
 
     [ForeignKey(nameof(OrganizationId))]
-    public required OrganizationModel Organization { get; set; }
+    public OrganizationModel Organization { get; set; } = null!;
 
     [Column("name"), MaxLength(255)]
     public required string Name { get; set; }

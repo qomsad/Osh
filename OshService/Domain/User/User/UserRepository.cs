@@ -9,6 +9,6 @@ public class UserRepository(DatabaseContext context) : Repository<UserModel, lon
 {
     public UserModel? GetByLogin(string login)
     {
-        return GetOne(q => q.Where(entity => entity.Login == login));
+        return Get().FirstOrDefault(entity => entity.Login == login);
     }
 }

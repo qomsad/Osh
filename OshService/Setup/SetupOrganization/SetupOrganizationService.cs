@@ -40,7 +40,7 @@ public class SetupOrganizationService(
 
         privilege.SetupLock();
 
-        var result = repository.GetOne(entity);
+        var result = repository.Get(entity);
         return new Result<SetupOrganizationStatusEnum>(mapper.Map<SetupOrganizationResponse>(result));
     }
 }

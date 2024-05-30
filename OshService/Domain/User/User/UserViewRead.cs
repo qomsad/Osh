@@ -6,6 +6,8 @@ public class UserViewRead
 
     public required string Login { get; set; }
 
+    public required UserType Type { get; set; }
+
     public string? FirstName { get; set; }
 
     public string? MiddleName { get; set; }

@@ -10,6 +10,6 @@ public class UserAdministratorRepository(DatabaseContext context)
 {
     public UserAdministratorModel? GetByLogin(string login)
     {
-        return GetOne(q => q.Where(entity => entity.Login == login));
+        return Get().FirstOrDefault(entity => entity.Login == login);
     }
 }

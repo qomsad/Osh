@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace OshService.Domain.User.User;
@@ -35,6 +36,7 @@ public class UserModel(UserType type)
     public string? LastName { get; set; }
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum UserType
 {
     Admin,

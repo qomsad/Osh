@@ -15,6 +15,6 @@ public class OrganizationRepository(DatabaseContext context) : Repository<Organi
 
     public OrganizationModel? GetByUrl(string url)
     {
-        return GetOne(q => q.Where(entity => entity.Url == url));
+        return Get().FirstOrDefault(entity => entity.Url == url);
     }
 }

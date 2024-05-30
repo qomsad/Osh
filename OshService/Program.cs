@@ -56,6 +56,7 @@ public static class Program
             };
         });
         builder.Services.AddAuthorization();
+        builder.Services.AddHttpContextAccessor();
 
         builder.Services.AddEndpointsApiExplorer().AddSwaggerGen(setup =>
         {
