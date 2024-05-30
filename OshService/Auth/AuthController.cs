@@ -9,7 +9,7 @@ namespace OshService.Auth;
 [ApiController]
 [Route("api/auth")]
 [SwaggerTag("Аутентификация")]
-[Produces(MediaTypeNames.Application.Json), Consumes(MediaTypeNames.Application.Json)]
+[Produces(MediaTypeNames.Application.Json)]
 public class AuthController(AuthService service) : Controller
 {
     [HttpPost("login")]

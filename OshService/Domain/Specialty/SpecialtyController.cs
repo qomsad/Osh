@@ -13,7 +13,7 @@ namespace OshService.Domain.Specialty;
 [ApiController]
 [Route("api/specialty")]
 [Authorize(Roles = nameof(UserType.Admin))]
-[Produces(MediaTypeNames.Application.Json), Consumes(MediaTypeNames.Application.Json)]
+[Produces(MediaTypeNames.Application.Json)]
 public class SpecialtyController(
     IValidator<SpecialtyViewCreate> validator,
     SpecialtyService service

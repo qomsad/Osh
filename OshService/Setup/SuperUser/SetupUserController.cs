@@ -8,7 +8,7 @@ namespace OshService.Setup.SuperUser;
 
 [ApiController]
 [Route("api/setup/user")]
-[Produces(MediaTypeNames.Application.Json), Consumes(MediaTypeNames.Application.Json)]
+[Produces(MediaTypeNames.Application.Json)]
 public class SetupUserController(
     IValidator<SetupUserRequest> validator,
     SetupUserService service

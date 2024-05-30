@@ -13,7 +13,7 @@ namespace OshService.Setup.SetupOrganization;
 [ApiController]
 [Route("api/setup/organization")]
 [Authorize(Roles = nameof(UserType.Admin))]
-[Produces(MediaTypeNames.Application.Json), Consumes(MediaTypeNames.Application.Json)]
+[Produces(MediaTypeNames.Application.Json)]
 public class SetupOrganizationController(
     IValidator<SetupOrganizationRequest> validator,
     SetupOrganizationService service
