@@ -6,7 +6,7 @@ using OshService.Data;
 namespace OshService.Domain.User.UserEmployee;
 
 [Repository]
-public class UserEmployeeRepository(DatabaseContext context) : Repository<UserEmployeeModel, long>(context)
+public class UserEmployeeRepository(DatabaseContext context) : Repository<UserEmployeeModel>(context)
 {
     public override IQueryable<UserEmployeeModel> Projection(IQueryable<UserEmployeeModel> query)
     {

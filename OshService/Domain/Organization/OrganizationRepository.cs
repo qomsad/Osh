@@ -6,7 +6,7 @@ using OshService.Data;
 namespace OshService.Domain.Organization;
 
 [Repository]
-public class OrganizationRepository(DatabaseContext context) : Repository<OrganizationModel, long>(context)
+public class OrganizationRepository(DatabaseContext context) : Repository<OrganizationModel>(context)
 {
     public override IQueryable<OrganizationModel> Projection(IQueryable<OrganizationModel> query)
     {

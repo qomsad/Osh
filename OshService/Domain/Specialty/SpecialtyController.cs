@@ -1,4 +1,5 @@
-﻿using AspBoot.Data.Request;
+﻿using System.Net.Mime;
+using AspBoot.Data.Request;
 using AspBoot.Handler;
 using AspBoot.Validation;
 using FluentValidation;
@@ -12,6 +13,7 @@ namespace OshService.Domain.Specialty;
 [ApiController]
 [Route("api/specialty")]
 [Authorize(Roles = nameof(UserType.Admin))]
+[Produces(MediaTypeNames.Application.Json), Consumes(MediaTypeNames.Application.Json)]
 public class SpecialtyController(
     IValidator<SpecialtyViewCreate> validator,
     SpecialtyService service

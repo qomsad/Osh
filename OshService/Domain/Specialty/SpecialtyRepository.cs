@@ -5,7 +5,7 @@ using OshService.Data;
 namespace OshService.Domain.Specialty;
 
 [Repository]
-public class SpecialtyRepository(DatabaseContext context) : Repository<SpecialtyModel, long>(context)
+public class SpecialtyRepository(DatabaseContext context) : Repository<SpecialtyModel>(context)
 {
     public SpecialtyModel? GetByName(string name, long organizationId)
     {

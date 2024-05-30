@@ -5,7 +5,7 @@ using OshService.Data;
 namespace OshService.Domain.User.User;
 
 [Repository]
-public class UserRepository(DatabaseContext context) : Repository<UserModel, long>(context)
+public class UserRepository(DatabaseContext context) : Repository<UserModel>(context)
 {
     public UserModel? GetByLogin(string login)
     {
