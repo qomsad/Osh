@@ -25,5 +25,5 @@ public class LearningSectionModel
     public required long OshProgramId { get; set; }
 
     [ForeignKey(nameof(OshProgramId))]
-    public required OshProgramModel OshProgram { get; set; }
+    public OshProgramModel OshProgram { get; set; } = null!;
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using OshService.Domain.Material.MaterialTraining.TrainingQuestionAnswer;
 using OshService.Domain.OshProgram.OshProgram;
 
@@ -31,6 +32,7 @@ public class TrainingQuestionModel
     public required OshProgramModel OshProgram { get; set; }
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum TrainingQuestionType
 {
     QuestionMultiple,

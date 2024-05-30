@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using OshService.Domain.Material.MaterialLearning.LearningSection;
 
 namespace OshService.Domain.Material.MaterialLearning.LearningSectionFile;
@@ -25,6 +26,7 @@ public class LearningSectionFileModel
     public required LearningSectionModel LearningSection { get; set; }
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum LearningSectionFileType
 {
     Pdf,

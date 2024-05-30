@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using OshService.Domain.Material.MaterialLearning.LearningSection;
 using OshService.Domain.Material.MaterialTraining.TrainingQuestion;
 using OshService.Domain.Organization;
@@ -19,7 +20,7 @@ public class OshProgramModel
     public required long OrganizationId { get; set; }
 
     [ForeignKey(nameof(OrganizationId))]
-    public required OrganizationModel Organization { get; set; }
+    public OrganizationModel Organization { get; set; } = null!;
 
     [Column("name")]
     public required string Name { get; set; }
@@ -53,6 +54,7 @@ public class OshProgramModel
     public required int TrainingSuccessRate { get; set; }
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum OshProgramAutoAssignment
 {
     FullManual,
