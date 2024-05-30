@@ -11,10 +11,6 @@ public class OshProgramRepository(DatabaseContext context) : Repository<OshProgr
     public override IQueryable<OshProgramModel> Projection(IQueryable<OshProgramModel> queryable)
     {
         queryable = queryable.Include(nameof(OshProgramModel.Specialty));
-        queryable = queryable.Include(entity => entity.LearningSections)
-            .ThenInclude(sections => sections.LearningSectionFile);
-        queryable = queryable.Include(entity => entity.TrainingQuestions)
-            .ThenInclude(sections => sections.Answers);
         return queryable;
     }
 

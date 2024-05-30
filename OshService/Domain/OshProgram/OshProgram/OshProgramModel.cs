@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using OshService.Domain.Material.MaterialLearning.LearningSection;
 using OshService.Domain.Material.MaterialTraining.TrainingQuestion;
 using OshService.Domain.Organization;
@@ -50,8 +51,8 @@ public class OshProgramModel
     [Column("max_auto_assignments")]
     public int? MaxAutoAssignments { get; set; }
 
-    [Column("training_success_rate")]
-    public int TrainingSuccessRate { get; set; } = 0;
+    [Column("training_success_rate"), Precision(4, 2)]
+    public required decimal TrainingSuccessRate { get; set; }
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]

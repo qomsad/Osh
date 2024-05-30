@@ -22,7 +22,8 @@ public class OshProgramService(OshProgramRepository repository, IMapper mapper, 
         entity.OrganizationId = organizationId;
         repository.Create(entity);
 
-        return new Result<OshProgramStatusEnum>(mapper.Map<OshProgramViewRead>(entity));
+        var result = repository.Get().FirstOrDefault(e => e.Id == entity.Id);
+        return new Result<OshProgramStatusEnum>(mapper.Map<OshProgramViewRead>(result));
     }
 
     public PageSearched<OshProgramViewRead> Search(RequestPageSearch request)
