@@ -12,8 +12,7 @@ public class SpecialtyRepository(DatabaseContext context) : Repository<Specialty
         return Get().FirstOrDefault(entity => entity.Name == name && entity.OrganizationId == organizationId);
     }
 
-    protected override IQueryable<SpecialtyModel> ApplySearch(string searchString,
-        IQueryable<SpecialtyModel> query)
+    protected override IQueryable<SpecialtyModel> ApplySearch(string searchString, IQueryable<SpecialtyModel> query)
     {
         return query.Where(entity => entity.Name.ToLower().Contains(searchString.ToLower()));
     }
