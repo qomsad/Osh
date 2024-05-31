@@ -7,7 +7,7 @@ using OshService.Domain.Material.MaterialTraining.TrainingQuestionAnswer;
 using OshService.Domain.Organization;
 using OshService.Domain.OshProgram.OshProgram;
 using OshService.Domain.OshProgram.OshProgramAssignment;
-using OshService.Domain.OshProgram.OshProgramStatus;
+using OshService.Domain.OshProgram.OshProgramResult;
 using OshService.Domain.OshProgram.OshProgramStatusLearning;
 using OshService.Domain.OshProgram.OshProgramStatusTraining;
 using OshService.Domain.OshProgram.OshProgramStatusTrainingAnswer;
@@ -30,10 +30,10 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbCont
 
     public DbSet<OshProgramModel> OshProgramModel { get; set; }
     public DbSet<OshProgramAssignmentModel> OshProgramAssignment { get; set; }
-    public DbSet<OshProgramStatusModel> OshProgramStatus { get; set; }
-    public DbSet<OshProgramStatusLearningModel> OshProgramStatusLearning { get; set; }
-    public DbSet<OshProgramStatusTrainingModel> OshProgramStatusTraining { get; set; }
-    public DbSet<OshProgramStatusTrainingAnswerModel> OshProgramStatusTrainingAnswer { get; set; }
+    public DbSet<OshProgramResult> OshProgramStatus { get; set; }
+    public DbSet<StatusLearningModel> OshProgramStatusLearning { get; set; }
+    public DbSet<StatusTrainingModel> OshProgramStatusTraining { get; set; }
+    public DbSet<StatusTrainingAnswerModel> OshProgramStatusTrainingAnswer { get; set; }
 
     public DbSet<SpecialtyModel> Specialty { get; set; }
 
@@ -57,9 +57,8 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbCont
         model.Entity<TrainingQuestionModel>().Property(e => e.QuestionType).HasConversion<string>();
 
         model.Entity<OshProgramModel>().Property(e => e.AutoAssignmentType).HasConversion<string>();
-        model.Entity<OshProgramStatusModel>().Property(e => e.GlobalStatus).HasConversion<string>();
-        model.Entity<OshProgramStatusLearningModel>().Property(e => e.LearningStatus).HasConversion<string>();
-        model.Entity<OshProgramStatusTrainingModel>().Property(e => e.TrainingStatus).HasConversion<string>();
+        model.Entity<StatusLearningModel>().Property(e => e.LearningStatus).HasConversion<string>();
+        model.Entity<StatusTrainingModel>().Property(e => e.TrainingStatus).HasConversion<string>();
 
         model.Entity<UserModel>().UseTptMappingStrategy();
         model.Entity<UserModel>().Property(e => e.Type).HasConversion<string>().IsRequired();

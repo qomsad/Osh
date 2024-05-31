@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using OshService.Domain.OshProgram.OshProgramAssignment;
 
-namespace OshService.Domain.OshProgram.OshProgramStatus;
+namespace OshService.Domain.OshProgram.OshProgramResult;
 
-[Table("program_status")]
-public class OshProgramStatusModel
+[Table("program_result")]
+public class OshProgramResult
 {
     [Key]
     [Column("id")]
@@ -18,17 +19,12 @@ public class OshProgramStatusModel
     [ForeignKey(nameof(OshProgramAssignmentId))]
     public required OshProgramAssignmentModel OshProgramAssignment { get; set; }
 
-    [Column("global_status")]
-    public required OshProgramGlobalStatus GlobalStatus { get; set; }
+    [Column("learning_result"), Precision(4, 2)]
+    public required decimal LearningResult { get; set; }
+
+    [Column("training_result"), Precision(4, 2)]
+    public required decimal TrainingResult { get; set; }
 
     [Column("timestamp")]
     public required DateTime Timestamp { get; set; }
-}
-
-public enum OshProgramGlobalStatus
-{
-    StartLearning,
-    EndLearning,
-    StartTraining,
-    EndTraining,
 }

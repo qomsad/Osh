@@ -7,7 +7,7 @@ using OshService.Domain.OshProgram.OshProgramStatusTrainingAnswer;
 namespace OshService.Domain.OshProgram.OshProgramStatusTraining;
 
 [Table("program_status_training")]
-public class OshProgramStatusTrainingModel
+public class StatusTrainingModel
 {
     [Key]
     [Column("id")]
@@ -29,7 +29,7 @@ public class OshProgramStatusTrainingModel
     [Column("training_status")]
     public required OshProgramTrainingStatus TrainingStatus { get; set; }
 
-    public required IEnumerable<OshProgramStatusTrainingAnswerModel> Answers { get; set; }
+    public required IEnumerable<StatusTrainingAnswerModel> Answers { get; set; }
 
     [Column("timestamp")]
     public required DateTime Timestamp { get; set; }

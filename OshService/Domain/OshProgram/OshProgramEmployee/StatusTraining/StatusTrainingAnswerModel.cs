@@ -6,7 +6,7 @@ using OshService.Domain.OshProgram.OshProgramStatusTraining;
 namespace OshService.Domain.OshProgram.OshProgramStatusTrainingAnswer;
 
 [Table("program_status_training_answer")]
-public class OshProgramStatusTrainingAnswerModel
+public class StatusTrainingAnswerModel
 {
     [Key]
     [Column("id")]
@@ -17,7 +17,7 @@ public class OshProgramStatusTrainingAnswerModel
     public required long OshProgramStatusTrainingId { get; set; }
 
     [ForeignKey(nameof(OshProgramStatusTrainingId))]
-    public required OshProgramStatusTrainingModel StatusTraining { get; set; }
+    public required StatusTrainingModel StatusTraining { get; set; }
 
     [Column("training_question_answer_id")]
     public required long TrainingQuestionAnswerId { get; set; }

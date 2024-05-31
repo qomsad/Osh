@@ -89,7 +89,7 @@ public class UserEmployeeService(
             return new Result<UserEmployeeStatusEnum>(UserEmployeeStatusEnum.SpecialtyNotFound);
         }
 
-        if (repository.GetByLogin(view.Login) != null)
+        if (repository.GetByLogin(view.Login)?.Id != entity.Id)
         {
             return new Result<UserEmployeeStatusEnum>(UserEmployeeStatusEnum.UserLoginExists);
         }
