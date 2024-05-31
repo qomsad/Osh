@@ -4,7 +4,7 @@ using OshService.Domain.Material.MaterialTraining.TrainingQuestionAnswer;
 
 namespace OshService.Domain.OshProgram.OshProgramEmployee.ResultTraining;
 
-[Table("program_status_training_answer")]
+[Table("result_training_answer")]
 public class EmployeeResultTrainingAnswerModel
 {
     [Key]

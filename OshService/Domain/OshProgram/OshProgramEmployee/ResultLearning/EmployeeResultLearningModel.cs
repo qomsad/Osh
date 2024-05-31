@@ -5,7 +5,7 @@ using OshService.Domain.OshProgram.OshProgramAssignment;
 
 namespace OshService.Domain.OshProgram.OshProgramEmployee.ResultLearning;
 
-[Table("program_status_learning")]
+[Table("result_learning")]
 public class EmployeeResultLearningModel
 {
     [Key]

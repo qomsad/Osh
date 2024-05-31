@@ -5,7 +5,7 @@ using OshService.Domain.User.UserEmployee;
 
 namespace OshService.Domain.Specialty;
 
-[Table("specialties")]
+[Table("specialty")]
 public class SpecialtyModel
 {
     [Key]
