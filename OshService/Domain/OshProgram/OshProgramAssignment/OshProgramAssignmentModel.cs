@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using OshService.Domain.OshProgram.OshProgram;
+using OshService.Domain.OshProgram.OshProgramResult;
 using OshService.Domain.User.UserEmployee;
 
 namespace OshService.Domain.OshProgram.OshProgramAssignment;
@@ -27,4 +28,10 @@ public class OshProgramAssignmentModel
 
     [Column("assignment_date")]
     public required DateTime AssignmentDate { get; set; }
+
+    [Column("program_result_id")]
+    public long? OshProgramResultId { get; set; }
+
+    [ForeignKey(nameof(OshProgramResultId))]
+    public OshProgramResultModel? Result { get; set; }
 }

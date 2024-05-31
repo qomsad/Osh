@@ -16,32 +16,45 @@ public class EmployeeProgramService(
     SecurityService service
 )
 {
-    public Page<EmployeeProgramViewRead>? GetAssigned(RequestPage request)
+    public Page<OshProgramAssignmentViewRead>? GetAssigned(RequestPage request)
     {
         var employee = service.GetCurrentEmployee();
         if (employee != null)
         {
             var programs = repository.GetPaginated(request, query => query
-                .Where(e => e.UserEmployeeId == employee.Id));
+                .Where(e => e.UserEmployeeId == employee.Id && e.OshProgramResultId == null));
 
-            return programs.MapPage(mapper.Map<IEnumerable<EmployeeProgramViewRead>>);
+            return programs.MapPage(mapper.Map<IEnumerable<OshProgramAssignmentViewRead>>);
         }
         return null;
     }
 
-    public Result<EmployeeProgramStatusEnum> GetById(long id)
+    public Page<OshProgramAssignmentViewRead>? GetResult(RequestPage request)
+    {
+        var employee = service.GetCurrentEmployee();
+        if (employee != null)
+        {
+            var programs = repository.GetPaginated(request, query => query
+                .Where(e => e.UserEmployeeId == employee.Id && e.OshProgramResultId != null));
+
+            return programs.MapPage(mapper.Map<IEnumerable<OshProgramAssignmentViewRead>>);
+        }
+        return null;
+    }
+
+    public Result<OshProgramAssignmentStatusEnum> GetById(long id)
     {
         var employee = service.GetCurrentEmployee();
         if (employee == null)
         {
-            return new Result<EmployeeProgramStatusEnum>(EmployeeProgramStatusEnum.NoPrivilegesAvailable);
+            return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable);
         }
         var program = repository.Get().Include(nameof(OshProgramAssignmentModel.OshProgram))
             .FirstOrDefault(e => e.Employee.Id == employee.Id && e.Id == id);
         if (program == null)
         {
-            return new Result<EmployeeProgramStatusEnum>(EmployeeProgramStatusEnum.OshProgramNotFound);
+            return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.ProgramNotFound);
         }
-        return new Result<EmployeeProgramStatusEnum>(mapper.Map<EmployeeProgramViewRead>(program));
+        return new Result<OshProgramAssignmentStatusEnum>(mapper.Map<OshProgramAssignmentViewRead>(program));
     }
 }

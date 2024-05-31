@@ -3,6 +3,7 @@ using AspBoot.Data.Request;
 using AspBoot.Handler;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OshService.Domain.OshProgram.OshProgramAssignment;
 using OshService.Domain.User.User;
 
 namespace OshService.Domain.OshProgram.OshProgramEmployee;
@@ -19,13 +20,19 @@ public class EmployeeProgramController(EmployeeProgramService service) : Control
         return Ok(service.GetAssigned(parameters));
     }
 
+    [HttpGet("results")]
+    public IActionResult GetResult([FromQuery] RequestPage parameters)
+    {
+        return Ok(service.GetResult(parameters));
+    }
+
     [HttpGet("{id:long}")]
     public IActionResult GetById([FromRoute] long id)
     {
-        return new Response<EmployeeProgramViewRead, EmployeeProgramStatusEnum>()
+        return new Response<OshProgramAssignmentViewRead, OshProgramAssignmentStatusEnum>()
             .Handle(_ => service.GetById(id))
-            .OnStatus(EmployeeProgramStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
-            .OnStatus(EmployeeProgramStatusEnum.OshProgramNotFound, HttpResult.NotFound)
+            .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramAssignmentStatusEnum.ProgramNotFound, HttpResult.NotFound)
             .Respond();
     }
 }
