@@ -14,7 +14,8 @@ public class EmployeeMaterialLearningService(
     LearningSectionRepository repository,
     OshProgramAssignmentRepository assignmentRepository,
     IMapper mapper,
-    SecurityService service)
+    SecurityService service
+)
 {
     public object? GetAssigned(long assigmentId, RequestPage request)
     {
@@ -22,7 +23,13 @@ public class EmployeeMaterialLearningService(
         if (employee != null)
         {
             var assigment = assignmentRepository.Get()
-                .FirstOrDefault(e => e.UserEmployeeId == employee.Id && e.Id == assigmentId);
+                .FirstOrDefault(
+                    e => e.UserEmployeeId == employee.Id
+                         && e.Id == assigmentId
+                         && e.Result == null
+                         && e.StartLearning.ToUniversalTime() > e.StartLearning.ToUniversalTime()
+                             .AddMinutes(e.OshProgram.LearningMinutesDuration)
+                );
             if (assigment != null)
             {
                 var learnings =
@@ -43,7 +50,13 @@ public class EmployeeMaterialLearningService(
                 Result<LearningSectionStatusEnum>(LearningSectionStatusEnum.NoPrivilegesAvailable);
         }
         var assigment = assignmentRepository.Get()
-            .FirstOrDefault(e => e.UserEmployeeId == employee.Id && e.Id == assigmentId);
+            .FirstOrDefault(
+                e => e.UserEmployeeId == employee.Id
+                     && e.Id == assigmentId
+                     && e.Result == null
+                     && e.StartLearning.ToUniversalTime() > e.StartLearning.ToUniversalTime()
+                         .AddMinutes(e.OshProgram.LearningMinutesDuration)
+            );
         if (assigment == null)
         {
             return new Result<LearningSectionStatusEnum>

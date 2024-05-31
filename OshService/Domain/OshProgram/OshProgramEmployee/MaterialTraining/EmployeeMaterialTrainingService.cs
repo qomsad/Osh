@@ -24,7 +24,13 @@ public class EmployeeMaterialTrainingService(
         if (employee != null)
         {
             var assigment = assignmentRepository.Get()
-                .FirstOrDefault(e => e.UserEmployeeId == employee.Id && e.Id == assigmentId);
+                .FirstOrDefault(
+                    e => e.UserEmployeeId == employee.Id
+                         && e.Id == assigmentId
+                         && e.Result == null
+                         && e.StartTraining.ToUniversalTime() > e.StartTraining.ToUniversalTime()
+                             .AddMinutes(e.OshProgram.LearningMinutesDuration)
+                );
             if (assigment != null)
             {
                 var trainings =
@@ -45,7 +51,13 @@ public class EmployeeMaterialTrainingService(
                 Result<TrainingQuestionStatusEnum>(TrainingQuestionStatusEnum.NoPrivilegesAvailable);
         }
         var assigment = assignmentRepository.Get()
-            .FirstOrDefault(e => e.UserEmployeeId == employee.Id && e.Id == assigmentId);
+            .FirstOrDefault(
+                e => e.UserEmployeeId == employee.Id
+                     && e.Id == assigmentId
+                     && e.Result == null
+                     && e.StartTraining.ToUniversalTime() > e.StartTraining.ToUniversalTime()
+                         .AddMinutes(e.OshProgram.LearningMinutesDuration)
+            );
         if (assigment == null)
         {
             return new Result<TrainingQuestionStatusEnum>
