@@ -13,6 +13,7 @@ public class OshProgramAssignmentRepository(DatabaseContext context) : Repositor
     {
         queryable = queryable.Include(entity => entity.OshProgram).ThenInclude(program => program.Specialty);
         queryable = queryable.Include(entity => entity.Employee).ThenInclude(employee => employee.Specialty);
+        queryable = queryable.Include(nameof(OshProgramAssignmentModel.Result));
         return queryable;
     }
 
