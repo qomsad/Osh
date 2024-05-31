@@ -13,7 +13,7 @@ namespace OshService.Domain.OshProgram.OshProgramEmployee.ResultLearning;
 [Produces(MediaTypeNames.Application.Json)]
 public class EmployeeResultLearningController(EmployeeResultLearningService service) : Controller
 {
-    [HttpGet("{learningId:long}")]
+    [HttpPost("{learningId:long}")]
     public IActionResult Result([FromRoute] long id, [FromRoute] long learningId)
     {
         return new Response<object, LearningSectionStatusEnum>()

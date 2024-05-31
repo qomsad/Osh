@@ -5,20 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 using OshService.Domain.OshProgram.OshProgramResult;
 using OshService.Domain.User.User;
 
-namespace OshService.Domain.OshProgram.OshProgramEmployee.ResultTraining;
+namespace OshService.Domain.OshProgram.OshProgramEmployee.ProgramResult;
 
 [ApiController]
-[Route("api/employee/osh-program/{id:long}/training/result")]
+[Route("api/employee/osh-program/result")]
 [Authorize(Roles = nameof(UserType.Employee))]
 [Produces(MediaTypeNames.Application.Json)]
-public class EmployeeResultTrainingController(EmployeeResultTrainingService service) : Controller
+public class EmployeeProgramResultController(OshProgramResultService service)
 {
-    [HttpPost("{trainingId:long}")]
-    public IActionResult Result([FromRoute] long id, [FromRoute] long trainingId,
-        [FromBody] EmployeeResultTrainingViewCreate view)
+    [HttpPost("{id:long}")]
+    public IActionResult Result([FromRoute] long id)
     {
         return new Response<object, OshProgramResultStatusEnum>()
-            .Handle(_ => service.Result(id, trainingId, view))
+            .Handle(_ => service.Result(id))
             .OnStatus(OshProgramResultStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
             .OnStatus(OshProgramResultStatusEnum.OshProgramNotFound, HttpResult.NotFound)
             .OnStatus(OshProgramResultStatusEnum.Timeout, HttpResult.Forbidden)
