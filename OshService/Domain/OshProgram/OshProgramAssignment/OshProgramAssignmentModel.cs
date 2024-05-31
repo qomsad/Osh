@@ -29,6 +29,12 @@ public class OshProgramAssignmentModel
     [Column("assignment_date")]
     public required DateTime AssignmentDate { get; set; }
 
+    [Column("start_learning")]
+    public required DateTime StartLearning { get; set; }
+
+    [Column("start_training")]
+    public required DateTime StartTraining { get; set; }
+
     [Column("program_result_id")]
     public long? OshProgramResultId { get; set; }
 
