@@ -16,7 +16,7 @@ public class EmployeeResultTrainingAnswerModel
     public required long OshProgramStatusTrainingId { get; set; }
 
     [ForeignKey(nameof(OshProgramStatusTrainingId))]
-    public required EmployeeResultTrainingModel StatusTraining { get; set; }
+    public required EmployeeResultTrainingModel Training { get; set; }
 
     [Column("training_question_answer_id")]
     public required long TrainingQuestionAnswerId { get; set; }

@@ -63,11 +63,9 @@ public class EmployeeMaterialTrainingService(
             return new Result<TrainingQuestionStatusEnum>
                 (TrainingQuestionStatusEnum.OshProgramNotFound);
         }
-        {
-            var learning = repository.Get().Include(nameof(TrainingQuestionModel.Answers))
-                .FirstOrDefault(e => e.Id == sectionId);
-            return new Result<TrainingQuestionStatusEnum>(
-                mapper.Map<EmployeeMaterialTrainingViewRead>(learning));
-        }
+        var training = repository.Get().Include(nameof(TrainingQuestionModel.Answers))
+            .FirstOrDefault(e => e.Id == sectionId);
+        return new Result<TrainingQuestionStatusEnum>(
+            mapper.Map<EmployeeMaterialTrainingViewRead>(training));
     }
 }
