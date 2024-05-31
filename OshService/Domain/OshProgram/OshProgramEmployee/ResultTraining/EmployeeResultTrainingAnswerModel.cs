@@ -2,10 +2,10 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using OshService.Domain.Material.MaterialTraining.TrainingQuestionAnswer;
 
-namespace OshService.Domain.OshProgram.OshProgramEmployee.StatusTraining;
+namespace OshService.Domain.OshProgram.OshProgramEmployee.ResultTraining;
 
 [Table("program_status_training_answer")]
-public class EmployeeStatusTrainingAnswerModel
+public class EmployeeResultTrainingAnswerModel
 {
     [Key]
     [Column("id")]
@@ -16,7 +16,7 @@ public class EmployeeStatusTrainingAnswerModel
     public required long OshProgramStatusTrainingId { get; set; }
 
     [ForeignKey(nameof(OshProgramStatusTrainingId))]
-    public required EmployeeStatusTrainingModel StatusTraining { get; set; }
+    public required EmployeeResultTrainingModel StatusTraining { get; set; }
 
     [Column("training_question_answer_id")]
     public required long TrainingQuestionAnswerId { get; set; }

@@ -7,8 +7,8 @@ using OshService.Domain.Material.MaterialTraining.TrainingQuestionAnswer;
 using OshService.Domain.Organization;
 using OshService.Domain.OshProgram.OshProgram;
 using OshService.Domain.OshProgram.OshProgramAssignment;
-using OshService.Domain.OshProgram.OshProgramEmployee.StatusLearning;
-using OshService.Domain.OshProgram.OshProgramEmployee.StatusTraining;
+using OshService.Domain.OshProgram.OshProgramEmployee.ResultLearning;
+using OshService.Domain.OshProgram.OshProgramEmployee.ResultTraining;
 using OshService.Domain.OshProgram.OshProgramResult;
 using OshService.Domain.Specialty;
 using OshService.Domain.User.User;
@@ -31,9 +31,9 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbCont
     public DbSet<OshProgramAssignmentModel> OshProgramAssignment { get; set; }
     public DbSet<OshProgramResultModel> OshProgramStatus { get; set; }
 
-    public DbSet<EmployeeStatusLearningModel> OshProgramStatusLearning { get; set; }
-    public DbSet<EmployeeStatusTrainingModel> OshProgramStatusTraining { get; set; }
-    public DbSet<EmployeeStatusTrainingAnswerModel> OshProgramStatusTrainingAnswer { get; set; }
+    public DbSet<EmployeeResultLearningModel> OshProgramStatusLearning { get; set; }
+    public DbSet<EmployeeResultTrainingModel> OshProgramStatusTraining { get; set; }
+    public DbSet<EmployeeResultTrainingAnswerModel> OshProgramStatusTrainingAnswer { get; set; }
 
     public DbSet<SpecialtyModel> Specialty { get; set; }
 
