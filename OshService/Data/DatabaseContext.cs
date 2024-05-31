@@ -30,9 +30,10 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbCont
     public DbSet<OshProgramModel> OshProgramModel { get; set; }
     public DbSet<OshProgramAssignmentModel> OshProgramAssignment { get; set; }
     public DbSet<OshProgramResultModel> OshProgramStatus { get; set; }
-    public DbSet<StatusLearningModel> OshProgramStatusLearning { get; set; }
-    public DbSet<StatusTrainingModel> OshProgramStatusTraining { get; set; }
-    public DbSet<StatusTrainingAnswerModel> OshProgramStatusTrainingAnswer { get; set; }
+
+    public DbSet<EmployeeStatusLearningModel> OshProgramStatusLearning { get; set; }
+    public DbSet<EmployeeStatusTrainingModel> OshProgramStatusTraining { get; set; }
+    public DbSet<EmployeeStatusTrainingAnswerModel> OshProgramStatusTrainingAnswer { get; set; }
 
     public DbSet<SpecialtyModel> Specialty { get; set; }
 

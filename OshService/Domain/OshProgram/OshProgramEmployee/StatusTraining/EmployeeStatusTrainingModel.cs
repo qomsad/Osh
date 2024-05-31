@@ -6,7 +6,7 @@ using OshService.Domain.OshProgram.OshProgramAssignment;
 namespace OshService.Domain.OshProgram.OshProgramEmployee.StatusTraining;
 
 [Table("program_status_training")]
-public class StatusTrainingModel
+public class EmployeeStatusTrainingModel
 {
     [Key]
     [Column("id")]
@@ -25,7 +25,7 @@ public class StatusTrainingModel
     [ForeignKey(nameof(TrainingQuestionId))]
     public required TrainingQuestionModel TrainingQuestion { get; set; }
 
-    public required IEnumerable<StatusTrainingAnswerModel> Answers { get; set; }
+    public required IEnumerable<EmployeeStatusTrainingAnswerModel> Answers { get; set; }
 
     [Column("timestamp")]
     public required DateTime Timestamp { get; set; }

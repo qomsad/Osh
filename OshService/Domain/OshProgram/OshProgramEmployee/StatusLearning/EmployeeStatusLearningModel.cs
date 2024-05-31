@@ -6,7 +6,7 @@ using OshService.Domain.OshProgram.OshProgramAssignment;
 namespace OshService.Domain.OshProgram.OshProgramEmployee.StatusLearning;
 
 [Table("program_status_learning")]
-public class StatusLearningModel
+public class EmployeeStatusLearningModel
 {
     [Key]
     [Column("id")]
