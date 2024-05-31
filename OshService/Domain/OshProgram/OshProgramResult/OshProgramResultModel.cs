@@ -6,7 +6,7 @@ using OshService.Domain.OshProgram.OshProgramAssignment;
 namespace OshService.Domain.OshProgram.OshProgramResult;
 
 [Table("program_result")]
-public class OshProgramResult
+public class OshProgramResultModel
 {
     [Key]
     [Column("id")]
