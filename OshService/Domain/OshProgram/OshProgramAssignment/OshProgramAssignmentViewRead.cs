@@ -14,5 +14,9 @@ public class OshProgramAssignmentViewRead
 
     public required DateTime AssignmentDate { get; set; }
 
+    public required DateTime StartLearning { get; set; }
+
+    public required DateTime StartTraining { get; set; }
+
     public OshProgramResultViewRead? Result { get; set; }
 }
