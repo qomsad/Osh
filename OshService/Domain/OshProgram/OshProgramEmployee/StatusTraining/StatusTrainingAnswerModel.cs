@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using OshService.Domain.Material.MaterialTraining.TrainingQuestionAnswer;
-using OshService.Domain.OshProgram.OshProgramStatusTraining;
 
-namespace OshService.Domain.OshProgram.OshProgramStatusTrainingAnswer;
+namespace OshService.Domain.OshProgram.OshProgramEmployee.StatusTraining;
 
 [Table("program_status_training_answer")]
 public class StatusTrainingAnswerModel
