@@ -25,17 +25,8 @@ public class StatusTrainingModel
     [ForeignKey(nameof(TrainingQuestionId))]
     public required TrainingQuestionModel TrainingQuestion { get; set; }
 
-    [Column("training_status")]
-    public required OshProgramTrainingStatus TrainingStatus { get; set; }
-
     public required IEnumerable<StatusTrainingAnswerModel> Answers { get; set; }
 
     [Column("timestamp")]
     public required DateTime Timestamp { get; set; }
-}
-
-public enum OshProgramTrainingStatus
-{
-    ReadQuestion,
-    AnswerQuestion,
 }

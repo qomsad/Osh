@@ -25,15 +25,6 @@ public class StatusLearningModel
     [ForeignKey(nameof(LearningSectionId))]
     public required LearningSectionModel LearningSection { get; set; }
 
-    [Column("learning_status")]
-    public required OshProgramLearningStatus LearningStatus { get; set; }
-
     [Column("timestamp")]
     public required DateTime Timestamp { get; set; }
-}
-
-public enum OshProgramLearningStatus
-{
-    OpenSection,
-    CloseSection,
 }

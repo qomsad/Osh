@@ -56,8 +56,6 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbCont
         model.Entity<TrainingQuestionModel>().Property(e => e.QuestionType).HasConversion<string>();
 
         model.Entity<OshProgramModel>().Property(e => e.AutoAssignmentType).HasConversion<string>();
-        model.Entity<StatusLearningModel>().Property(e => e.LearningStatus).HasConversion<string>();
-        model.Entity<StatusTrainingModel>().Property(e => e.TrainingStatus).HasConversion<string>();
 
         model.Entity<UserModel>().UseTptMappingStrategy();
         model.Entity<UserModel>().Property(e => e.Type).HasConversion<string>().IsRequired();
