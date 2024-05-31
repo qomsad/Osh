@@ -1,14 +1,13 @@
 ﻿using OshService.Domain.OshProgram.OshProgram;
 using OshService.Domain.OshProgram.OshProgramResult;
-using OshService.Domain.User.UserEmployee;
 
-namespace OshService.Domain.OshProgram.OshProgramAssignment;
+namespace OshService.Domain.OshProgram.OshProgramEmployee;
 
-public class OshProgramAssignmentViewRead
+public class EmployeeProgramViewRead
 {
     public required long Id { get; set; }
 
-    public required UserEmployeeViewRead Employee { get; set; }
+    public required long OshProgramId { get; set; }
 
     public required OshProgramViewRead OshProgram { get; set; }
 
@@ -17,6 +16,8 @@ public class OshProgramAssignmentViewRead
     public DateTime? StartLearning { get; set; }
 
     public DateTime? StartTraining { get; set; }
+
+    public long? OshProgramResultId { get; set; }
 
     public OshProgramResultViewRead? Result { get; set; }
 }

@@ -27,9 +27,8 @@ public class EmployeeMaterialLearningService(
                     e => e.UserEmployeeId == employee.Id
                          && e.Id == assigmentId
                          && e.Result == null
-                         && e.StartLearning.ToUniversalTime() > e.StartLearning.ToUniversalTime()
-                             .AddMinutes(e.OshProgram.LearningMinutesDuration)
-                );
+                         && e.StartLearning != null
+                         && e.StartTraining == null);
             if (assigment != null)
             {
                 var learnings =
@@ -54,9 +53,8 @@ public class EmployeeMaterialLearningService(
                 e => e.UserEmployeeId == employee.Id
                      && e.Id == assigmentId
                      && e.Result == null
-                     && e.StartLearning.ToUniversalTime() > e.StartLearning.ToUniversalTime()
-                         .AddMinutes(e.OshProgram.LearningMinutesDuration)
-            );
+                     && e.StartLearning != null
+                     && e.StartTraining == null);
         if (assigment == null)
         {
             return new Result<LearningSectionStatusEnum>

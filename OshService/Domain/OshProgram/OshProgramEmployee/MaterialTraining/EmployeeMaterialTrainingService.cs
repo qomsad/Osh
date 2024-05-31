@@ -2,6 +2,7 @@
 using AspBoot.Data.Request;
 using AspBoot.Handler;
 using AspBoot.Service;
+using AspBoot.Utils;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using OshService.Domain.Material.MaterialTraining.TrainingQuestion;
@@ -24,14 +25,13 @@ public class EmployeeMaterialTrainingService(
         if (employee != null)
         {
             var assigment = assignmentRepository.Get()
+                .Include(nameof(OshProgramAssignmentModel.OshProgram))
                 .FirstOrDefault(
                     e => e.UserEmployeeId == employee.Id
                          && e.Id == assigmentId
-                         && e.Result == null
-                         && e.StartTraining.ToUniversalTime() > e.StartTraining.ToUniversalTime()
-                             .AddMinutes(e.OshProgram.LearningMinutesDuration)
-                );
-            if (assigment != null)
+                         && e.Result == null);
+            if (assigment != null &&
+                assigment.StartTraining.IsLast(assigment.OshProgram.TrainingMinutesDuration))
             {
                 var trainings =
                     repository.GetPaginated(request,
@@ -51,14 +51,14 @@ public class EmployeeMaterialTrainingService(
                 Result<TrainingQuestionStatusEnum>(TrainingQuestionStatusEnum.NoPrivilegesAvailable);
         }
         var assigment = assignmentRepository.Get()
+            .Include(nameof(OshProgramAssignmentModel.OshProgram))
             .FirstOrDefault(
                 e => e.UserEmployeeId == employee.Id
                      && e.Id == assigmentId
                      && e.Result == null
-                     && e.StartTraining.ToUniversalTime() > e.StartTraining.ToUniversalTime()
-                         .AddMinutes(e.OshProgram.LearningMinutesDuration)
-            );
-        if (assigment == null)
+                     && e.StartTraining != null);
+        if (assigment != null &&
+            assigment.StartTraining.IsLast(assigment.OshProgram.TrainingMinutesDuration))
         {
             return new Result<TrainingQuestionStatusEnum>
                 (TrainingQuestionStatusEnum.OshProgramNotFound);

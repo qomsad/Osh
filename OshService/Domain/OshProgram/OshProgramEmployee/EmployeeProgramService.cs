@@ -16,7 +16,7 @@ public class EmployeeProgramService(
     SecurityService service
 )
 {
-    public Page<OshProgramAssignmentViewRead>? GetAssigned(RequestPage request)
+    public Page<EmployeeProgramViewRead>? GetAssigned(RequestPage request)
     {
         var employee = service.GetCurrentEmployee();
         if (employee != null)
@@ -25,12 +25,12 @@ public class EmployeeProgramService(
                 .Where(e => e.UserEmployeeId == employee.Id && e.OshProgramResultId == null)
             );
 
-            return assigment.MapPage(mapper.Map<IEnumerable<OshProgramAssignmentViewRead>>);
+            return assigment.MapPage(mapper.Map<IEnumerable<EmployeeProgramViewRead>>);
         }
         return null;
     }
 
-    public Page<OshProgramAssignmentViewRead>? GetResult(RequestPage request)
+    public Page<EmployeeProgramViewRead>? GetResult(RequestPage request)
     {
         var employee = service.GetCurrentEmployee();
         if (employee != null)
@@ -38,7 +38,7 @@ public class EmployeeProgramService(
             var assigment = repository.GetPaginated(request, query => query
                 .Where(e => e.UserEmployeeId == employee.Id && e.OshProgramResultId != null));
 
-            return assigment.MapPage(mapper.Map<IEnumerable<OshProgramAssignmentViewRead>>);
+            return assigment.MapPage(mapper.Map<IEnumerable<EmployeeProgramViewRead>>);
         }
         return null;
     }
@@ -56,7 +56,7 @@ public class EmployeeProgramService(
         {
             return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.ProgramNotFound);
         }
-        return new Result<OshProgramAssignmentStatusEnum>(mapper.Map<OshProgramAssignmentViewRead>(assigment));
+        return new Result<OshProgramAssignmentStatusEnum>(mapper.Map<EmployeeProgramViewRead>(assigment));
     }
 
     public Result<OshProgramAssignmentStatusEnum> StartLearning(long id)
@@ -73,7 +73,8 @@ public class EmployeeProgramService(
             return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.ProgramNotFound);
         }
         assigment.StartLearning = DateTime.Now.ToUniversalTime();
-        return new Result<OshProgramAssignmentStatusEnum>(mapper.Map<OshProgramAssignmentViewRead>(assigment));
+        repository.Update(assigment);
+        return new Result<OshProgramAssignmentStatusEnum>(mapper.Map<EmployeeProgramViewRead>(assigment));
     }
 
     public Result<OshProgramAssignmentStatusEnum> StartTraining(long id)
@@ -90,6 +91,7 @@ public class EmployeeProgramService(
             return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.ProgramNotFound);
         }
         assigment.StartTraining = DateTime.Now.ToUniversalTime();
-        return new Result<OshProgramAssignmentStatusEnum>(mapper.Map<OshProgramAssignmentViewRead>(assigment));
+        repository.Update(assigment);
+        return new Result<OshProgramAssignmentStatusEnum>(mapper.Map<EmployeeProgramViewRead>(assigment));
     }
 }

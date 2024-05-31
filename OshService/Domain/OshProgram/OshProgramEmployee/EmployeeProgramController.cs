@@ -17,7 +17,7 @@ public class EmployeeProgramController(EmployeeProgramService service) : Control
     [HttpPatch("{id:long}/start-learning")]
     public IActionResult StartLearning([FromRoute] long id)
     {
-        return new Response<OshProgramAssignmentViewRead, OshProgramAssignmentStatusEnum>()
+        return new Response<EmployeeProgramViewRead, OshProgramAssignmentStatusEnum>()
             .Handle(_ => service.StartLearning(id))
             .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
             .OnStatus(OshProgramAssignmentStatusEnum.ProgramNotFound, HttpResult.NotFound)
@@ -25,9 +25,9 @@ public class EmployeeProgramController(EmployeeProgramService service) : Control
     }
 
     [HttpPatch("{id:long}/start-training")]
-    public IActionResult StartTrainig([FromRoute] long id)
+    public IActionResult StartTraining([FromRoute] long id)
     {
-        return new Response<OshProgramAssignmentViewRead, OshProgramAssignmentStatusEnum>()
+        return new Response<EmployeeProgramViewRead, OshProgramAssignmentStatusEnum>()
             .Handle(_ => service.StartTraining(id))
             .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
             .OnStatus(OshProgramAssignmentStatusEnum.ProgramNotFound, HttpResult.NotFound)
@@ -49,7 +49,7 @@ public class EmployeeProgramController(EmployeeProgramService service) : Control
     [HttpGet("{id:long}")]
     public IActionResult GetById([FromRoute] long id)
     {
-        return new Response<OshProgramAssignmentViewRead, OshProgramAssignmentStatusEnum>()
+        return new Response<EmployeeProgramViewRead, OshProgramAssignmentStatusEnum>()
             .Handle(_ => service.GetById(id))
             .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
             .OnStatus(OshProgramAssignmentStatusEnum.ProgramNotFound, HttpResult.NotFound)
