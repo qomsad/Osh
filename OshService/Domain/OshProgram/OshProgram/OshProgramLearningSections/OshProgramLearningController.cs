@@ -14,7 +14,7 @@ namespace OshService.Domain.OshProgram.OshProgram.OshProgramLearningSections;
 [Route("api/osh-program/{id:long}/learning")]
 [Authorize(Roles = nameof(UserType.Admin))]
 [Produces(MediaTypeNames.Application.Json)]
-public class LearningSectionsController(
+public class OshProgramLearningController(
     IValidator<LearningSectionViewCreate> validator,
     LearningSectionService service
 ) : Controller

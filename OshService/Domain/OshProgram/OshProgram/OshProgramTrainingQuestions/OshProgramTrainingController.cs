@@ -14,7 +14,7 @@ namespace OshService.Domain.OshProgram.OshProgram.OshProgramTrainingQuestions;
 [Route("api/osh-program/{id:long}/question")]
 [Authorize(Roles = nameof(UserType.Admin))]
 [Produces(MediaTypeNames.Application.Json)]
-public class TrainingQuestionsController(
+public class OshProgramTrainingController(
     IValidator<TrainingQuestionViewCreate> validator,
     TrainingQuestionService service
 ) : Controller
