@@ -14,6 +14,26 @@ namespace OshService.Domain.OshProgram.OshProgramEmployee;
 [Produces(MediaTypeNames.Application.Json)]
 public class EmployeeProgramController(EmployeeProgramService service) : Controller
 {
+    [HttpPatch("{id:long}/start-learning")]
+    public IActionResult StartLearning([FromRoute] long id)
+    {
+        return new Response<OshProgramAssignmentViewRead, OshProgramAssignmentStatusEnum>()
+            .Handle(_ => service.StartLearning(id))
+            .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramAssignmentStatusEnum.ProgramNotFound, HttpResult.NotFound)
+            .Respond();
+    }
+
+    [HttpPatch("{id:long}/start-training")]
+    public IActionResult StartTrainig([FromRoute] long id)
+    {
+        return new Response<OshProgramAssignmentViewRead, OshProgramAssignmentStatusEnum>()
+            .Handle(_ => service.StartTraining(id))
+            .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramAssignmentStatusEnum.ProgramNotFound, HttpResult.NotFound)
+            .Respond();
+    }
+
     [HttpGet]
     public IActionResult GetAssigned([FromQuery] RequestPage parameters)
     {

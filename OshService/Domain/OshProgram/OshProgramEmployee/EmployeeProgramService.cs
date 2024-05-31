@@ -21,10 +21,11 @@ public class EmployeeProgramService(
         var employee = service.GetCurrentEmployee();
         if (employee != null)
         {
-            var programs = repository.GetPaginated(request, query => query
-                .Where(e => e.UserEmployeeId == employee.Id && e.OshProgramResultId == null));
+            var assigment = repository.GetPaginated(request, query => query
+                .Where(e => e.UserEmployeeId == employee.Id && e.OshProgramResultId == null)
+            );
 
-            return programs.MapPage(mapper.Map<IEnumerable<OshProgramAssignmentViewRead>>);
+            return assigment.MapPage(mapper.Map<IEnumerable<OshProgramAssignmentViewRead>>);
         }
         return null;
     }
@@ -34,10 +35,10 @@ public class EmployeeProgramService(
         var employee = service.GetCurrentEmployee();
         if (employee != null)
         {
-            var programs = repository.GetPaginated(request, query => query
+            var assigment = repository.GetPaginated(request, query => query
                 .Where(e => e.UserEmployeeId == employee.Id && e.OshProgramResultId != null));
 
-            return programs.MapPage(mapper.Map<IEnumerable<OshProgramAssignmentViewRead>>);
+            return assigment.MapPage(mapper.Map<IEnumerable<OshProgramAssignmentViewRead>>);
         }
         return null;
     }
@@ -49,12 +50,46 @@ public class EmployeeProgramService(
         {
             return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable);
         }
-        var program = repository.Get().Include(nameof(OshProgramAssignmentModel.OshProgram))
+        var assigment = repository.Get().Include(nameof(OshProgramAssignmentModel.OshProgram))
             .FirstOrDefault(e => e.Employee.Id == employee.Id && e.Id == id);
-        if (program == null)
+        if (assigment == null)
         {
             return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.ProgramNotFound);
         }
-        return new Result<OshProgramAssignmentStatusEnum>(mapper.Map<OshProgramAssignmentViewRead>(program));
+        return new Result<OshProgramAssignmentStatusEnum>(mapper.Map<OshProgramAssignmentViewRead>(assigment));
+    }
+
+    public Result<OshProgramAssignmentStatusEnum> StartLearning(long id)
+    {
+        var employee = service.GetCurrentEmployee();
+        if (employee == null)
+        {
+            return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable);
+        }
+        var assigment = repository.Get().Include(nameof(OshProgramAssignmentModel.OshProgram))
+            .FirstOrDefault(e => e.Employee.Id == employee.Id && e.Id == id);
+        if (assigment == null)
+        {
+            return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.ProgramNotFound);
+        }
+        assigment.StartLearning = DateTime.Now.ToUniversalTime();
+        return new Result<OshProgramAssignmentStatusEnum>(mapper.Map<OshProgramAssignmentViewRead>(assigment));
+    }
+
+    public Result<OshProgramAssignmentStatusEnum> StartTraining(long id)
+    {
+        var employee = service.GetCurrentEmployee();
+        if (employee == null)
+        {
+            return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable);
+        }
+        var assigment = repository.Get().Include(nameof(OshProgramAssignmentModel.OshProgram))
+            .FirstOrDefault(e => e.Employee.Id == employee.Id && e.Id == id);
+        if (assigment == null)
+        {
+            return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.ProgramNotFound);
+        }
+        assigment.StartTraining = DateTime.Now.ToUniversalTime();
+        return new Result<OshProgramAssignmentStatusEnum>(mapper.Map<OshProgramAssignmentViewRead>(assigment));
     }
 }
