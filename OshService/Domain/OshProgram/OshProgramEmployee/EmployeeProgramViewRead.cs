@@ -2,7 +2,7 @@
 
 namespace OshService.Domain.OshProgram.OshProgramEmployee;
 
-public class OshProgramEmployeeViewRead
+public class EmployeeProgramViewRead
 {
     public required long Id { get; set; }
 

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace OshService.Domain.OshProgram.OshProgramEmployee;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum OshProgramEmployeeStatusEnum
+public enum EmployeeProgramStatusEnum
 {
     [Description("Нет доступных привилегий")]
     NoPrivilegesAvailable,

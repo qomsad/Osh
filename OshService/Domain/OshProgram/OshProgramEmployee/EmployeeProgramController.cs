@@ -3,7 +3,6 @@ using AspBoot.Data.Request;
 using AspBoot.Handler;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OshService.Domain.OshProgram.OshProgram;
 using OshService.Domain.User.User;
 
 namespace OshService.Domain.OshProgram.OshProgramEmployee;
@@ -12,7 +11,7 @@ namespace OshService.Domain.OshProgram.OshProgramEmployee;
 [Route("api/employee/osh-program")]
 [Authorize(Roles = nameof(UserType.Employee))]
 [Produces(MediaTypeNames.Application.Json)]
-public class OshProgramEmployeeController(OshProgramEmployeeService service) : Controller
+public class EmployeeProgramController(EmployeeProgramService service) : Controller
 {
     [HttpGet]
     public IActionResult GetAssigned([FromQuery] RequestPage parameters)
@@ -23,10 +22,10 @@ public class OshProgramEmployeeController(OshProgramEmployeeService service) : C
     [HttpGet("{id:long}")]
     public IActionResult GetById([FromRoute] long id)
     {
-        return new Response<OshProgramEmployeeViewRead, OshProgramEmployeeStatusEnum>()
+        return new Response<EmployeeProgramViewRead, EmployeeProgramStatusEnum>()
             .Handle(_ => service.GetById(id))
-            .OnStatus(OshProgramEmployeeStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
-            .OnStatus(OshProgramEmployeeStatusEnum.OshProgramNotFound, HttpResult.NotFound)
+            .OnStatus(EmployeeProgramStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(EmployeeProgramStatusEnum.OshProgramNotFound, HttpResult.NotFound)
             .Respond();
     }
 }
