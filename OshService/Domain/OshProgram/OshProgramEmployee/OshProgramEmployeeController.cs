@@ -23,7 +23,7 @@ public class OshProgramEmployeeController(OshProgramEmployeeService service) : C
     [HttpGet("{id:long}")]
     public IActionResult GetById([FromRoute] long id)
     {
-        return new Response<OshProgramViewCreate, OshProgramEmployeeStatusEnum>()
+        return new Response<OshProgramEmployeeViewRead, OshProgramEmployeeStatusEnum>()
             .Handle(_ => service.GetById(id))
             .OnStatus(OshProgramEmployeeStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
             .OnStatus(OshProgramEmployeeStatusEnum.OshProgramNotFound, HttpResult.NotFound)
