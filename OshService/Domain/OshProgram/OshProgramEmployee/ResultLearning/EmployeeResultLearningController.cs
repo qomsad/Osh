@@ -2,7 +2,7 @@
 using AspBoot.Handler;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OshService.Domain.Material.MaterialLearning.LearningSection;
+using OshService.Domain.OshProgram.OshProgramResult;
 using OshService.Domain.User.User;
 
 namespace OshService.Domain.OshProgram.OshProgramEmployee.ResultLearning;
@@ -16,10 +16,10 @@ public class EmployeeResultLearningController(EmployeeResultLearningService serv
     [HttpPost("{learningId:long}")]
     public IActionResult Result([FromRoute] long id, [FromRoute] long learningId)
     {
-        return new Response<object, LearningSectionStatusEnum>()
+        return new Response<object, OshProgramResultStatusEnum>()
             .Handle(_ => service.Result(id, learningId))
-            .OnStatus(LearningSectionStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
-            .OnStatus(LearningSectionStatusEnum.OshProgramNotFound, HttpResult.NotFound)
+            .OnStatus(OshProgramResultStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramResultStatusEnum.OshProgramNotFound, HttpResult.NotFound)
             .Respond();
     }
 }

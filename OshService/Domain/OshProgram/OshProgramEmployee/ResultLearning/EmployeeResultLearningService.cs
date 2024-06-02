@@ -2,6 +2,7 @@
 using AspBoot.Service;
 using OshService.Domain.Material.MaterialLearning.LearningSection;
 using OshService.Domain.OshProgram.OshProgramAssignment;
+using OshService.Domain.OshProgram.OshProgramResult;
 using OshService.Security;
 
 namespace OshService.Domain.OshProgram.OshProgramEmployee.ResultLearning;
@@ -14,32 +15,23 @@ public class EmployeeResultLearningService(
     SecurityService service
 )
 {
-    public Result<LearningSectionStatusEnum> Result(long assigmentId, long questionId)
+    public Result<OshProgramResultStatusEnum> Result(long assigmentId, long questionId)
     {
-        var employee = service.GetCurrentEmployee();
-        if (employee == null)
-        {
-            return new
-                Result<LearningSectionStatusEnum>(LearningSectionStatusEnum.NoPrivilegesAvailable);
-        }
-        var assigment = assignmentRepository.Get()
-            .FirstOrDefault(
-                e => e.UserEmployeeId == employee.Id
-                     && e.Id == assigmentId
-                     && e.Result == null
-                     && e.StartLearning != null
-                     && e.StartTraining == null);
+        var assigment = assignmentRepository.GetByEmployeeId(assigmentId, service.GetCurrentEmployeeId());
         if (assigment == null)
         {
-            return new Result<LearningSectionStatusEnum>
-                (LearningSectionStatusEnum.OshProgramNotFound);
+            return new Result<OshProgramResultStatusEnum>(OshProgramResultStatusEnum.OshProgramNotFound);
         }
         var question = learningSectionRepository.Get().FirstOrDefault(e => e.Id == questionId);
         if (question == null)
         {
-            return new Result<LearningSectionStatusEnum>(LearningSectionStatusEnum.NoPrivilegesAvailable);
+            return new Result<OshProgramResultStatusEnum>(OshProgramResultStatusEnum.OshProgramNotFound);
         }
-        repository.Create(new EmployeeResultLearningModel
+        if (assigment.StartLearning == null)
+        {
+            return new Result<OshProgramResultStatusEnum>(OshProgramResultStatusEnum.NoPrivilegesAvailable);
+        }
+        var entity = new EmployeeResultLearningModel
         {
             LearningSectionId = question.Id,
             OshProgramAssignmentId = assigmentId,
@@ -47,7 +39,9 @@ public class EmployeeResultLearningService(
             Id = 0,
             LearningSection = null!,
             OshProgramAssignment = null!
-        });
-        return new Result<LearningSectionStatusEnum>((new { }));
+        };
+
+        repository.Create(entity);
+        return new Result<OshProgramResultStatusEnum>((new { entity.Id, entity.Timestamp }));
     }
 }
