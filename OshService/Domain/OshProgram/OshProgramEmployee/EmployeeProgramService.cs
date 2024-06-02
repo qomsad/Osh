@@ -3,7 +3,6 @@ using AspBoot.Data.Request;
 using AspBoot.Handler;
 using AspBoot.Service;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using OshService.Domain.OshProgram.OshProgramAssignment;
 using OshService.Security;
 
@@ -18,40 +17,25 @@ public class EmployeeProgramService(
 {
     public Page<EmployeeProgramViewRead>? GetAssigned(RequestPage request)
     {
-        var employee = service.GetCurrentEmployee();
-        if (employee != null)
-        {
-            var assigment = repository.GetPaginated(request, query => query
-                .Where(e => e.UserEmployeeId == employee.Id && e.OshProgramResultId == null)
-            );
-
-            return assigment.MapPage(mapper.Map<IEnumerable<EmployeeProgramViewRead>>);
-        }
-        return null;
+        var assigment = repository.GetPaginated(request,
+            query => query.Where(e => e.UserEmployeeId == service.GetCurrentEmployeeId()
+                                      && e.OshProgramResultId == null)
+        );
+        return assigment.MapPage(mapper.Map<IEnumerable<EmployeeProgramViewRead>>);
     }
 
     public Page<EmployeeProgramViewRead>? GetResult(RequestPage request)
     {
-        var employee = service.GetCurrentEmployee();
-        if (employee != null)
-        {
-            var assigment = repository.GetPaginated(request, query => query
-                .Where(e => e.UserEmployeeId == employee.Id && e.OshProgramResultId != null));
-
-            return assigment.MapPage(mapper.Map<IEnumerable<EmployeeProgramViewRead>>);
-        }
-        return null;
+        var assigment = repository.GetPaginated(request,
+            query => query.Where(e => e.UserEmployeeId == service.GetCurrentEmployeeId()
+                                      && e.OshProgramResultId != null)
+        );
+        return assigment.MapPage(mapper.Map<IEnumerable<EmployeeProgramViewRead>>);
     }
 
     public Result<OshProgramAssignmentStatusEnum> GetById(long id)
     {
-        var employee = service.GetCurrentEmployee();
-        if (employee == null)
-        {
-            return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable);
-        }
-        var assigment = repository.Get().Include(nameof(OshProgramAssignmentModel.OshProgram))
-            .FirstOrDefault(e => e.Employee.Id == employee.Id && e.Id == id);
+        var assigment = repository.GetByEmployeeId(id, service.GetCurrentEmployeeId());
         if (assigment == null)
         {
             return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.ProgramNotFound);
@@ -61,16 +45,14 @@ public class EmployeeProgramService(
 
     public Result<OshProgramAssignmentStatusEnum> StartLearning(long id)
     {
-        var employee = service.GetCurrentEmployee();
-        if (employee == null)
-        {
-            return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable);
-        }
-        var assigment = repository.Get().Include(nameof(OshProgramAssignmentModel.OshProgram))
-            .FirstOrDefault(e => e.Employee.Id == employee.Id && e.Id == id);
+        var assigment = repository.GetByEmployeeId(id, service.GetCurrentEmployeeId());
         if (assigment == null)
         {
             return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.ProgramNotFound);
+        }
+        if (assigment.StartLearning != null)
+        {
+            return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable);
         }
         assigment.StartLearning = DateTime.Now.ToUniversalTime();
         repository.Update(assigment);
@@ -79,16 +61,14 @@ public class EmployeeProgramService(
 
     public Result<OshProgramAssignmentStatusEnum> StartTraining(long id)
     {
-        var employee = service.GetCurrentEmployee();
-        if (employee == null)
-        {
-            return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable);
-        }
-        var assigment = repository.Get().Include(nameof(OshProgramAssignmentModel.OshProgram))
-            .FirstOrDefault(e => e.Employee.Id == employee.Id && e.Id == id);
+        var assigment = repository.GetByEmployeeId(id, service.GetCurrentEmployeeId());
         if (assigment == null)
         {
             return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.ProgramNotFound);
+        }
+        if (assigment.StartLearning == null || assigment.StartTraining != null)
+        {
+            return new Result<OshProgramAssignmentStatusEnum>(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable);
         }
         assigment.StartTraining = DateTime.Now.ToUniversalTime();
         repository.Update(assigment);
