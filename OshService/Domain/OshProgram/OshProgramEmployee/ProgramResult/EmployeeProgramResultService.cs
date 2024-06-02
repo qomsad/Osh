@@ -1,6 +1,6 @@
 ﻿using AspBoot.Handler;
 using AspBoot.Service;
-using AspBoot.Utils;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using OshService.Domain.Material.MaterialLearning.LearningSection;
 using OshService.Domain.Material.MaterialTraining.TrainingQuestion;
@@ -20,12 +20,13 @@ public class EmployeeProgramResultService(
     EmployeeResultTrainingRepository trainingActualRepository,
     LearningSectionRepository learningExpectedRepository,
     TrainingQuestionRepository trainingExpectedRepository,
+    IMapper mapper,
     SecurityService privilege)
 {
     public Result<OshProgramResultStatusEnum> Result(long assigmentId)
     {
         var assigment = assignmentRepository.GetByEmployeeId(assigmentId, privilege.GetCurrentEmployeeId());
-        if (assigment == null)
+        if (assigment == null || assigment.Result != null)
         {
             return new Result<OshProgramResultStatusEnum>(OshProgramResultStatusEnum.OshProgramNotFound);
         }
@@ -46,7 +47,7 @@ public class EmployeeProgramResultService(
         var numberExpectedLearnings = expectedLearning.Count;
         var numberActualLearnings = actualLearning
             .Count(ac => expectedLearning.Select(e => e.Id).Contains(ac.LearningSectionId));
-        var learningsResult = (decimal) numberExpectedLearnings / numberActualLearnings;
+        var learningsResult = (decimal) numberActualLearnings / numberExpectedLearnings;
 
         var numberExpectedTrainings = expectedTraining.Count;
         var numberActualTrainings = 0;
@@ -59,11 +60,11 @@ public class EmployeeProgramResultService(
             {
                 if (expectedAnswers.SequenceEqual(actualAnswers))
                 {
-                    numberActualLearnings += 1;
+                    numberActualTrainings += 1;
                 }
             }
         }
-        var trainingResult = (decimal) numberExpectedTrainings / numberActualTrainings;
+        var trainingResult = (decimal) numberActualTrainings / numberExpectedTrainings;
 
         var entity = new OshProgramResultModel
         {
@@ -75,6 +76,9 @@ public class EmployeeProgramResultService(
             OshProgramAssignment = null!,
         };
         repository.Create(entity);
-        return new Result<OshProgramResultStatusEnum>(entity);
+        assigment.OshProgramResultId = entity.Id;
+        assignmentRepository.Update(assigment);
+        var result = repository.Projection(repository.Get()).FirstOrDefault(e => e.Id == entity.Id);
+        return new Result<OshProgramResultStatusEnum>(mapper.Map<OshProgramResultViewRead>(result));
     }
 }

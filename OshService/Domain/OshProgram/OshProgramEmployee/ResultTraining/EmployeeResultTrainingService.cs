@@ -29,7 +29,7 @@ public class EmployeeResultTrainingService(
             .Include(nameof(TrainingQuestionModel.Answers))
             .FirstOrDefault(e => e.Id == trainingId);
 
-        if (training == null || training.Answers.Any(ans => !view.Answers.Contains(ans.Id)))
+        if (training == null)
         {
             return new Result<OshProgramResultStatusEnum>(OshProgramResultStatusEnum.OshProgramNotFound);
         }
@@ -49,7 +49,7 @@ public class EmployeeResultTrainingService(
                     OshProgramStatusTrainingId = trainingId,
                     Training = null!,
                     ActualAnswer = null!
-                }),
+                }).ToList(),
             Id = 0,
             OshProgramAssignment = null!,
             TrainingQuestion = null!,

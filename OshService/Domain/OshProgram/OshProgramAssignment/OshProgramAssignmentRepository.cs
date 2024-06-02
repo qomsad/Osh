@@ -19,14 +19,14 @@ public class OshProgramAssignmentRepository(DatabaseContext context) : Repositor
 
     public OshProgramAssignmentModel? GetById(long id, long organizationId)
     {
-        return Get().FirstOrDefault(entity => entity.Id == id
-                                              && entity.OshProgram.OrganizationId == organizationId);
+        return Projection(Get()).FirstOrDefault(entity => entity.Id == id
+                                                         && entity.OshProgram.OrganizationId == organizationId);
     }
 
     public OshProgramAssignmentModel? GetByEmployeeId(long id, long employeeId)
     {
-        return Get().FirstOrDefault(entity => entity.Id == id
-                                              && entity.Employee.Id == employeeId);
+        return Projection(Get()).FirstOrDefault(entity => entity.Id == id
+                                                        && entity.Employee.Id == employeeId);
     }
 
     protected override IQueryable<OshProgramAssignmentModel> ApplyFiltering(IQueryable<OshProgramAssignmentModel> query,
