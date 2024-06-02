@@ -20,38 +20,24 @@ public class EmployeeResultTrainingService(
     public Result<OshProgramResultStatusEnum> Result(long assigmentId, long trainingId,
         EmployeeResultTrainingViewCreate view)
     {
-        var employee = service.GetCurrentEmployee();
-        if (employee == null)
-        {
-            return new
-                Result<OshProgramResultStatusEnum>(OshProgramResultStatusEnum.NoPrivilegesAvailable);
-        }
-        var assigment = assignmentRepository.Get()
-            .Include(nameof(OshProgramAssignmentModel.OshProgram))
-            .FirstOrDefault(
-                e => e.UserEmployeeId == employee.Id
-                     && e.Id == assigmentId
-                     && e.Result == null
-                     && e.StartTraining != null);
+        var assigment = assignmentRepository.GetByEmployeeId(assigmentId, service.GetCurrentEmployeeId());
         if (assigment == null)
-        {
-            return new Result<OshProgramResultStatusEnum>
-                (OshProgramResultStatusEnum.OshProgramNotFound);
-        }
-        if (assigment.StartTraining.IsLast(assigment.OshProgram.TrainingMinutesDuration))
-        {
-            return new Result<OshProgramResultStatusEnum>(OshProgramResultStatusEnum.Timeout);
-        }
-
-        var training = questionRepository.Get().Include(nameof(TrainingQuestionModel.Answers))
-            .FirstOrDefault(e => e.Id == trainingId);
-
-        if (training == null || training.Answers.Contains<>(view.Answers))
         {
             return new Result<OshProgramResultStatusEnum>(OshProgramResultStatusEnum.NoPrivilegesAvailable);
         }
+        var training = questionRepository.Get()
+            .Include(nameof(TrainingQuestionModel.Answers))
+            .FirstOrDefault(e => e.Id == trainingId);
 
-        repository.Create(new EmployeeResultTrainingModel
+        if (training == null || training.Answers.Any(ans => !view.Answers.Contains(ans.Id)))
+        {
+            return new Result<OshProgramResultStatusEnum>(OshProgramResultStatusEnum.OshProgramNotFound);
+        }
+        if (!assigment.StartTraining.IsLast(assigment.OshProgram.TrainingMinutesDuration))
+        {
+            return new Result<OshProgramResultStatusEnum>(OshProgramResultStatusEnum.Timeout);
+        }
+        var entity = new EmployeeResultTrainingModel
         {
             TrainingQuestionId = trainingId,
             OshProgramAssignmentId = assigmentId,
@@ -68,8 +54,8 @@ public class EmployeeResultTrainingService(
             OshProgramAssignment = null!,
             TrainingQuestion = null!,
             Timestamp = DateTime.Now.ToUniversalTime()
-        });
-
-        return new Result<OshProgramResultStatusEnum>(new { });
+        };
+        repository.Create(entity);
+        return new Result<OshProgramResultStatusEnum>(new { entity.Id, entity.Timestamp });
     }
 }
