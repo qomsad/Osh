@@ -5,6 +5,7 @@ using AspBoot.Service;
 using AutoMapper;
 using OshService.Domain.Material.MaterialLearning.LearningSection;
 using OshService.Domain.OshProgram.OshProgramAssignment;
+using OshService.Domain.OshProgram.OshProgramResult;
 using OshService.Security;
 
 namespace OshService.Domain.OshProgram.OshProgramEmployee.MaterialLearning;
@@ -19,51 +20,21 @@ public class EmployeeMaterialLearningService(
 {
     public object? GetAssigned(long assigmentId, RequestPage request)
     {
-        var employee = service.GetCurrentEmployee();
-        if (employee != null)
-        {
-            var assigment = assignmentRepository.Get()
-                .FirstOrDefault(
-                    e => e.UserEmployeeId == employee.Id
-                         && e.Id == assigmentId
-                         && e.Result == null
-                         && e.StartLearning != null
-                         && e.StartTraining == null);
-            if (assigment != null)
-            {
-                var learnings =
-                    repository.GetPaginated(request,
-                        query => query.Where(e => e.OshProgramId == assigment.OshProgramId));
-                return learnings.MapPage(mapper.Map<IEnumerable<LearningSectionViewRead>>);
-            }
-        }
-        return null;
+        var assigment = assignmentRepository.GetByEmployeeId(assigmentId, service.GetCurrentEmployeeId());
+        var oshProgramId = assigment?.StartLearning != null ? assigment.OshProgram.Id : 0;
+        var learnings = repository.GetPaginated(request,
+            query => query.Where(e => e.OshProgramId == oshProgramId));
+        return learnings.MapPage(mapper.Map<IEnumerable<LearningSectionViewRead>>);
     }
 
-    public Result<LearningSectionStatusEnum> GetById(long assigmentId, long sectionId)
+    public Result<OshProgramResultStatusEnum> GetById(long assigmentId, long sectionId)
     {
-        var employee = service.GetCurrentEmployee();
-        if (employee == null)
+        var assigment = assignmentRepository.GetByEmployeeId(assigmentId, service.GetCurrentEmployeeId());
+        if (assigment?.StartLearning == null)
         {
-            return new
-                Result<LearningSectionStatusEnum>(LearningSectionStatusEnum.NoPrivilegesAvailable);
+            return new Result<OshProgramResultStatusEnum>(OshProgramResultStatusEnum.NoPrivilegesAvailable);
         }
-        var assigment = assignmentRepository.Get()
-            .FirstOrDefault(
-                e => e.UserEmployeeId == employee.Id
-                     && e.Id == assigmentId
-                     && e.Result == null
-                     && e.StartLearning != null
-                     && e.StartTraining == null);
-        if (assigment == null)
-        {
-            return new Result<LearningSectionStatusEnum>
-                (LearningSectionStatusEnum.OshProgramNotFound);
-        }
-        {
-            var learning = repository.Get().FirstOrDefault(e => e.Id == sectionId);
-            return new Result<LearningSectionStatusEnum>(
-                mapper.Map<LearningSectionViewRead>(learning));
-        }
+        var learning = repository.Get().FirstOrDefault(e => e.Id == sectionId);
+        return new Result<OshProgramResultStatusEnum>(mapper.Map<LearningSectionViewRead>(learning));
     }
 }
