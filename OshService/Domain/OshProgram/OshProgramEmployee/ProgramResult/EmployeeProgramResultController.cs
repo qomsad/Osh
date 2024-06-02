@@ -11,7 +11,7 @@ namespace OshService.Domain.OshProgram.OshProgramEmployee.ProgramResult;
 [Route("api/employee/osh-program/result")]
 [Authorize(Roles = nameof(UserType.Employee))]
 [Produces(MediaTypeNames.Application.Json)]
-public class EmployeeProgramResultController(OshProgramResultService service)
+public class EmployeeProgramResultController(EmployeeProgramResultService service)
 {
     [HttpPost("{id:long}")]
     public IActionResult Result([FromRoute] long id)

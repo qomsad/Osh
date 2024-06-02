@@ -45,21 +45,20 @@ public class SecurityService(
         return employeeRepository.GetByLogin(login);
     }
 
-    public bool CheckAdministratorOrganization(long organizationId)
-    {
-        var admin = GetCurrentAdministrator();
-        return admin != null && admin.ManageOrganizationId == organizationId;
-    }
-
-    public bool CheckEmployeeScope(long employeeId)
-    {
-        var employee = GetCurrentEmployee();
-        return employee != null && employee.Id == employeeId;
-    }
-
     public long GetCurrentAdministratorOrganization()
     {
         var id = GetCurrentAdministrator()?.ManageOrganizationId;
+        if (id != null)
+        {
+            return (long) id;
+        }
+
+        return 0;
+    }
+
+    public long GetCurrentEmployeeId()
+    {
+        var id = GetCurrentEmployee()?.Id;
         if (id != null)
         {
             return (long) id;

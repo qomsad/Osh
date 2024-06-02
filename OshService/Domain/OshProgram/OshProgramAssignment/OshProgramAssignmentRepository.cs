@@ -23,6 +23,12 @@ public class OshProgramAssignmentRepository(DatabaseContext context) : Repositor
                                               && entity.OshProgram.OrganizationId == organizationId);
     }
 
+    public OshProgramAssignmentModel? GetByEmployeeId(long id, long employeeId)
+    {
+        return Get().FirstOrDefault(entity => entity.Id == id
+                                              && entity.Employee.Id == employeeId);
+    }
+
     protected override IQueryable<OshProgramAssignmentModel> ApplyFiltering(IQueryable<OshProgramAssignmentModel> query,
         Filter.Predicate? filter)
     {
@@ -60,6 +66,15 @@ public class OshProgramAssignmentRepository(DatabaseContext context) : Repositor
             query = query.Where(e => ids.Contains(e.Employee.Id));
         }
 
+        // todo filter by Result not Result + filter by Program
+
+        return query;
+    }
+
+    protected override IQueryable<OshProgramAssignmentModel> ApplySorting(IQueryable<OshProgramAssignmentModel> query,
+        Sort.Order? order)
+    {
+        // todo sort by assign date + result date
         return query;
     }
 
