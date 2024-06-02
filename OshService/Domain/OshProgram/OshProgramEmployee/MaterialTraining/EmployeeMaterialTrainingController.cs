@@ -3,7 +3,7 @@ using AspBoot.Data.Request;
 using AspBoot.Handler;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OshService.Domain.Material.MaterialTraining.TrainingQuestion;
+using OshService.Domain.OshProgram.OshProgramResult;
 using OshService.Domain.User.User;
 
 namespace OshService.Domain.OshProgram.OshProgramEmployee.MaterialTraining;
@@ -23,10 +23,10 @@ public class EmployeeMaterialTrainingController(EmployeeMaterialTrainingService 
     [HttpGet("{questionId:long}")]
     public IActionResult GetById([FromRoute] long id, [FromRoute] long questionId)
     {
-        return new Response<EmployeeMaterialTrainingViewRead, TrainingQuestionStatusEnum>()
+        return new Response<EmployeeMaterialTrainingViewRead, OshProgramResultStatusEnum>()
             .Handle(_ => service.GetById(id, questionId))
-            .OnStatus(TrainingQuestionStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
-            .OnStatus(TrainingQuestionStatusEnum.OshProgramNotFound, HttpResult.NotFound)
+            .OnStatus(OshProgramResultStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramResultStatusEnum.OshProgramNotFound, HttpResult.NotFound)
             .Respond();
     }
 }

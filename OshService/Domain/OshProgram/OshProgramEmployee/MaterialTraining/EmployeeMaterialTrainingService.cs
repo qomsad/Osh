@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using OshService.Domain.Material.MaterialTraining.TrainingQuestion;
 using OshService.Domain.OshProgram.OshProgramAssignment;
+using OshService.Domain.OshProgram.OshProgramResult;
 using OshService.Security;
 
 namespace OshService.Domain.OshProgram.OshProgramEmployee.MaterialTraining;
@@ -19,53 +20,29 @@ public class EmployeeMaterialTrainingService(
     SecurityService service
 )
 {
-    public object? GetAssigned(long assigmentId, RequestPage request)
+    public Page<EmployeeMaterialTrainingViewRead> GetAssigned(long assigmentId, RequestPage request)
     {
-        var employee = service.GetCurrentEmployee();
-        if (employee != null)
+        var assigment = assignmentRepository.GetByEmployeeId(assigmentId, service.GetCurrentEmployeeId());
+        long oshProgramId = 0;
+
+        if (assigment != null && assigment.StartTraining.IsLast(assigment.OshProgram.TrainingMinutesDuration))
         {
-            var assigment = assignmentRepository.Get()
-                .Include(nameof(OshProgramAssignmentModel.OshProgram))
-                .FirstOrDefault(
-                    e => e.UserEmployeeId == employee.Id
-                         && e.Id == assigmentId
-                         && e.Result == null);
-            if (assigment != null &&
-                assigment.StartTraining.IsLast(assigment.OshProgram.TrainingMinutesDuration))
-            {
-                var trainings =
-                    repository.GetPaginated(request,
-                        query => query.Where(e => e.OshProgramId == assigment.OshProgramId));
-                return trainings.MapPage(mapper.Map<IEnumerable<EmployeeMaterialTrainingViewRead>>);
-            }
+            oshProgramId = assigment.OshProgramId;
         }
-        return null;
+        var trainings = repository.GetPaginated(request,
+            query => query.Where(e => e.OshProgramId == oshProgramId));
+        return trainings.MapPage(mapper.Map<IEnumerable<EmployeeMaterialTrainingViewRead>>);
     }
 
-    public Result<TrainingQuestionStatusEnum> GetById(long assigmentId, long sectionId)
+    public Result<OshProgramResultStatusEnum> GetById(long assigmentId, long sectionId)
     {
-        var employee = service.GetCurrentEmployee();
-        if (employee == null)
+        var assigment = assignmentRepository.GetByEmployeeId(assigmentId, service.GetCurrentEmployeeId());
+        if (assigment == null || !assigment.StartTraining.IsLast(assigment.OshProgram.TrainingMinutesDuration))
         {
-            return new
-                Result<TrainingQuestionStatusEnum>(TrainingQuestionStatusEnum.NoPrivilegesAvailable);
-        }
-        var assigment = assignmentRepository.Get()
-            .Include(nameof(OshProgramAssignmentModel.OshProgram))
-            .FirstOrDefault(
-                e => e.UserEmployeeId == employee.Id
-                     && e.Id == assigmentId
-                     && e.Result == null
-                     && e.StartTraining != null);
-        if (assigment != null &&
-            assigment.StartTraining.IsLast(assigment.OshProgram.TrainingMinutesDuration))
-        {
-            return new Result<TrainingQuestionStatusEnum>
-                (TrainingQuestionStatusEnum.OshProgramNotFound);
+            return new Result<OshProgramResultStatusEnum>(OshProgramResultStatusEnum.NoPrivilegesAvailable);
         }
         var training = repository.Get().Include(nameof(TrainingQuestionModel.Answers))
             .FirstOrDefault(e => e.Id == sectionId);
-        return new Result<TrainingQuestionStatusEnum>(
-            mapper.Map<EmployeeMaterialTrainingViewRead>(training));
+        return new Result<OshProgramResultStatusEnum>(mapper.Map<EmployeeMaterialTrainingViewRead>(training));
     }
 }
