@@ -41,9 +41,9 @@ public class EmployeeProgramController(EmployeeProgramService service) : Control
     }
 
     [HttpGet("results")]
-    public IActionResult GetResult([FromQuery] RequestPage parameters)
+    public IActionResult GetResulted([FromQuery] RequestPage parameters)
     {
-        return Ok(service.GetResult(parameters));
+        return Ok(service.GetResulted(parameters));
     }
 
     [HttpGet("{id:long}")]

@@ -15,7 +15,7 @@ public class EmployeeProgramService(
     SecurityService service
 )
 {
-    public Page<EmployeeProgramViewRead>? GetAssigned(RequestPage request)
+    public Page<EmployeeProgramViewRead> GetAssigned(RequestPage request)
     {
         var assigment = repository.GetPaginated(request,
             query => query.Where(e => e.UserEmployeeId == service.GetCurrentEmployeeId()
@@ -24,7 +24,7 @@ public class EmployeeProgramService(
         return assigment.MapPage(mapper.Map<IEnumerable<EmployeeProgramViewRead>>);
     }
 
-    public Page<EmployeeProgramViewRead>? GetResult(RequestPage request)
+    public Page<EmployeeProgramViewRead> GetResulted(RequestPage request)
     {
         var assigment = repository.GetPaginated(request,
             query => query.Where(e => e.UserEmployeeId == service.GetCurrentEmployeeId()
