@@ -8,11 +8,16 @@ using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using OshService.Domain.User.User;
 using OshService.Options;
+using OshService.Security;
 
 namespace OshService.Auth;
 
 [Service]
-public class AuthService(UserRepository repository, IConfiguration configuration, IMapper mapper)
+public class AuthService(
+    UserRepository repository,
+    IConfiguration configuration,
+    IMapper mapper,
+    SecurityService service)
 {
     private readonly Jwt jwt = configuration.GetParam<Jwt>();
 
@@ -55,5 +60,15 @@ public class AuthService(UserRepository repository, IConfiguration configuration
             signingCredentials: new SigningCredentials(jwt.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
         );
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public object? GetCurrentUser()
+    {
+        var user = service.GetCurrentUser();
+        if (user != null)
+        {
+            return mapper.Map<UserViewRead>(user);
+        }
+        return null;
     }
 }

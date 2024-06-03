@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Mime;
 using AspBoot.Handler;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -24,5 +25,12 @@ public class AuthController(AuthService service) : Controller
             .OnStatus(AuthStatusEnum.UserNotFound, HttpResult.NotFound)
             .OnStatus(AuthStatusEnum.UserPasswordMismatch, HttpResult.Forbidden)
             .Respond();
+    }
+
+    [Authorize]
+    [HttpGet("current")]
+    public IActionResult GetUser()
+    {
+        return Ok(service.GetCurrentUser());
     }
 }
