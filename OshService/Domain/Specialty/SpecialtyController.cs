@@ -62,6 +62,7 @@ public class SpecialtyController(
         return new Response<SpecialtyViewCreate, SpecialtyStatusEnum>()
             .Handle(_ => service.Delete(id))
             .OnStatus(SpecialtyStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
+            .OnStatus(SpecialtyStatusEnum.DeleteLock, HttpResult.Conflict)
             .Respond();
     }
 }

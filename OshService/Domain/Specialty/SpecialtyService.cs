@@ -3,6 +3,7 @@ using AspBoot.Data.Request;
 using AspBoot.Handler;
 using AspBoot.Service;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using OshService.Security;
 
 namespace OshService.Domain.Specialty;
@@ -71,7 +72,14 @@ public class SpecialtyService(SpecialtyRepository repository, IMapper mapper, Se
         {
             return new Result<SpecialtyStatusEnum>(SpecialtyStatusEnum.NoPrivilegesAvailable);
         }
-        repository.Delete(entity);
+        try
+        {
+            repository.Delete(entity);
+        }
+        catch (DbUpdateException _)
+        {
+            return new Result<SpecialtyStatusEnum>(SpecialtyStatusEnum.DeleteLock);
+        }
         return new Result<SpecialtyStatusEnum>(new { });
     }
 }

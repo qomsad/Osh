@@ -11,4 +11,7 @@ public enum SpecialtyStatusEnum
 
     [Description("Специальность с таким названием уже существует")]
     SpecialtyAlreadyExists,
+
+    [Description("Запись используется в других реестрах")]
+    DeleteLock,
 }
