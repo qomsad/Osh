@@ -20,10 +20,15 @@ import { routeTree } from "./routeTree.gen";
 
 const router = createRouter({ routeTree });
 
+import "@mantine/notifications/styles.css";
+
+import { Notifications } from "@mantine/notifications";
+
 ReactDOM.createRoot(document.querySelector("app-root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <MantineProvider>
+        <Notifications position="top-right" />
         <RouterProvider router={router} />
       </MantineProvider>
     </QueryClientProvider>

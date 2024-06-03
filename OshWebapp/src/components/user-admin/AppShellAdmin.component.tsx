@@ -1,7 +1,8 @@
-import { AppShell, Grid, Group, Text, UnstyledButton } from "@mantine/core";
-import { ShieldQuestion } from "lucide-react";
+import { AppShell, Button, Grid, Group, Text, UnstyledButton } from "@mantine/core";
+import { LogOut, ShieldQuestion } from "lucide-react";
 import React from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { exit, getName } from "../../api/api.ts";
 
 interface AppShellOpenProps {
   children?: React.ReactNode;
@@ -10,33 +11,45 @@ interface AppShellOpenProps {
 
 function AppShellAdmin({ children }: AppShellOpenProps) {
   const router = useRouterState();
+  const navigate = useNavigate();
 
   return (
     <AppShell header={{ height: 60 }} footer={{ height: 60 }} padding="md">
       <AppShell.Header>
-        <Group h="100%" px="md">
+        <Group h="100%" px="md" justify="space-between">
           <Group h="100%">
             <ShieldQuestion size={30} />
             <Text size="lg" fw={500} component={Link} to="/admin">
               АИС Охрана труда
             </Text>
+            <Group h="100%" px="md" align="center">
+              <UnstyledButton component={Link} to="/admin/specialty">
+                <Text fw={router.location.href.startsWith("/admin/specialty") ? 700 : undefined}>Специальности</Text>
+              </UnstyledButton>
+              <UnstyledButton component={Link} to="/admin/employee">
+                <Text fw={router.location.href.startsWith("/admin/employee") ? 700 : undefined}>Сотрудники</Text>
+              </UnstyledButton>
+              <UnstyledButton component={Link} to="/admin/program">
+                <Text fw={router.location.href.startsWith("/admin/program") ? 700 : undefined}>Программы обучения</Text>
+              </UnstyledButton>
+              <UnstyledButton component={Link} to="/admin/assignment">
+                <Text fw={router.location.href.startsWith("/admin/assignment") ? 700 : undefined}>Назначения</Text>
+              </UnstyledButton>
+              <UnstyledButton component={Link} to="/admin/result">
+                <Text fw={router.location.href.startsWith("/admin/result") ? 700 : undefined}>Результаты</Text>
+              </UnstyledButton>
+            </Group>
           </Group>
-          <Group h="100%" px="md" align="center">
-            <UnstyledButton component={Link} to="/admin/specialty">
-              <Text fw={router.location.href.startsWith("/admin/specialty") ? 700 : undefined}>Специальности</Text>
-            </UnstyledButton>
-            <UnstyledButton component={Link} to="/admin/employee">
-              <Text fw={router.location.href.startsWith("/admin/employee") ? 700 : undefined}>Сотрудники</Text>
-            </UnstyledButton>
-            <UnstyledButton component={Link} to="/admin/program">
-              <Text fw={router.location.href.startsWith("/admin/program") ? 700 : undefined}>Программы обучения</Text>
-            </UnstyledButton>
-            <UnstyledButton component={Link} to="/admin/assignment">
-              <Text fw={router.location.href.startsWith("/admin/assignment") ? 700 : undefined}>Назначения</Text>
-            </UnstyledButton>
-            <UnstyledButton component={Link} to="/admin/result">
-              <Text fw={router.location.href.startsWith("/admin/result") ? 700 : undefined}>Результаты</Text>
-            </UnstyledButton>
+          <Group h="100%" align="center">
+            <Text mb="3">{getName()}</Text>
+            <Button
+              variant="transparent"
+              leftSection={<LogOut size={20} />}
+              onClick={async () => {
+                exit();
+                await navigate({ to: "/", resetScroll: true });
+              }}
+            />
           </Group>
         </Group>
       </AppShell.Header>

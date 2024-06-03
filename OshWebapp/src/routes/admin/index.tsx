@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AppShellAdmin } from "../../components/user-admin/AppShellAdmin.component.tsx";
+import { AdminHome } from "../../components/user-admin/AdminHome.component.tsx";
 
 export const Route = createFileRoute("/admin/")({
-  component: () => <AppShellAdmin />,
+  component: () => <AdminHome />,
 });
