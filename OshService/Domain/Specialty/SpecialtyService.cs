@@ -37,7 +37,11 @@ public class SpecialtyService(SpecialtyRepository repository, IMapper mapper, Se
     public PageSearched<SpecialtyViewRead> Search(RequestPageSearch request)
     {
         var page = repository.Search(request,
-            query => repository.OrganizationScope(privilege.GetCurrentAdministratorOrganization(), query));
+            query =>
+            {
+                query = query.OrderBy(e => e.Created);
+                return repository.OrganizationScope(privilege.GetCurrentAdministratorOrganization(), query);
+            });
 
         return page.MapPageSearched(mapper.Map<IEnumerable<SpecialtyViewRead>>);
     }
