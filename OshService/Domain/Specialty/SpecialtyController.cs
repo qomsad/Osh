@@ -25,7 +25,7 @@ public class SpecialtyController(
         return new Response<SpecialtyViewCreate, SpecialtyStatusEnum>()
             .OnValidationError(validator.GetValidationProblems(view), HttpResult.ValidationProblem)
             .Handle(service.Create)
-            .OnStatus(SpecialtyStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(SpecialtyStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(SpecialtyStatusEnum.SpecialtyAlreadyExists, HttpResult.Conflict)
             .Respond();
     }
@@ -41,7 +41,7 @@ public class SpecialtyController(
     {
         return new Response<SpecialtyViewCreate, SpecialtyStatusEnum>()
             .Handle(_ => service.GetById(id))
-            .OnStatus(SpecialtyStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(SpecialtyStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .Respond();
     }
 
@@ -51,7 +51,7 @@ public class SpecialtyController(
         return new Response<SpecialtyViewCreate, SpecialtyStatusEnum>()
             .OnValidationError(validator.GetValidationProblems(view), HttpResult.ValidationProblem)
             .Handle(r => service.Update(id, r))
-            .OnStatus(SpecialtyStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(SpecialtyStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(SpecialtyStatusEnum.SpecialtyAlreadyExists, HttpResult.Conflict)
             .Respond();
     }
@@ -61,7 +61,7 @@ public class SpecialtyController(
     {
         return new Response<SpecialtyViewCreate, SpecialtyStatusEnum>()
             .Handle(_ => service.Delete(id))
-            .OnStatus(SpecialtyStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(SpecialtyStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .Respond();
     }
 }

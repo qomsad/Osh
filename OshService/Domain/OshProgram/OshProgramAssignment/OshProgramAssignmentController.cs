@@ -20,7 +20,7 @@ public class OshProgramAssignmentController(
     {
         return new Response<OshProgramAssignmentViewCreate, OshProgramAssignmentStatusEnum>()
             .Handle(_ => service.Create(view))
-            .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(OshProgramAssignmentStatusEnum.EmployeeNotFound, HttpResult.NotFound)
             .OnStatus(OshProgramAssignmentStatusEnum.ProgramNotFound, HttpResult.NotFound)
             .Respond();
@@ -37,7 +37,7 @@ public class OshProgramAssignmentController(
     {
         return new Response<OshProgramAssignmentViewCreate, OshProgramAssignmentStatusEnum>()
             .Handle(_ => service.GetById(id))
-            .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .Respond();
     }
 }

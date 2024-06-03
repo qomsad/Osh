@@ -19,7 +19,7 @@ public class EmployeeProgramController(EmployeeProgramService service) : Control
     {
         return new Response<EmployeeProgramViewRead, OshProgramAssignmentStatusEnum>()
             .Handle(_ => service.StartLearning(id))
-            .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(OshProgramAssignmentStatusEnum.ProgramNotFound, HttpResult.NotFound)
             .Respond();
     }
@@ -29,7 +29,7 @@ public class EmployeeProgramController(EmployeeProgramService service) : Control
     {
         return new Response<EmployeeProgramViewRead, OshProgramAssignmentStatusEnum>()
             .Handle(_ => service.StartTraining(id))
-            .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(OshProgramAssignmentStatusEnum.ProgramNotFound, HttpResult.NotFound)
             .Respond();
     }
@@ -51,7 +51,7 @@ public class EmployeeProgramController(EmployeeProgramService service) : Control
     {
         return new Response<EmployeeProgramViewRead, OshProgramAssignmentStatusEnum>()
             .Handle(_ => service.GetById(id))
-            .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramAssignmentStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(OshProgramAssignmentStatusEnum.ProgramNotFound, HttpResult.NotFound)
             .Respond();
     }

@@ -25,7 +25,7 @@ public class EmployeeMaterialTrainingController(EmployeeMaterialTrainingService 
     {
         return new Response<EmployeeMaterialTrainingViewRead, OshProgramResultStatusEnum>()
             .Handle(_ => service.GetById(id, questionId))
-            .OnStatus(OshProgramResultStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramResultStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(OshProgramResultStatusEnum.OshProgramNotFound, HttpResult.NotFound)
             .Respond();
     }

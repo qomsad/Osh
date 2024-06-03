@@ -25,7 +25,7 @@ public class OshProgramTrainingController(
         return new Response<TrainingQuestionViewCreate, TrainingQuestionStatusEnum>()
             .OnValidationError(validator.GetValidationProblems(view), HttpResult.ValidationProblem)
             .Handle(r => service.Create(id, r))
-            .OnStatus(TrainingQuestionStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(TrainingQuestionStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(TrainingQuestionStatusEnum.OshProgramNotFound, HttpResult.NotFound)
             .Respond();
     }
@@ -41,7 +41,7 @@ public class OshProgramTrainingController(
     {
         return new Response<TrainingQuestionViewCreate, TrainingQuestionStatusEnum>()
             .Handle(_ => service.GetById(id, questionId))
-            .OnStatus(TrainingQuestionStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(TrainingQuestionStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(TrainingQuestionStatusEnum.OshProgramNotFound, HttpResult.NotFound)
             .Respond();
     }
@@ -53,7 +53,7 @@ public class OshProgramTrainingController(
         return new Response<TrainingQuestionViewCreate, TrainingQuestionStatusEnum>()
             .OnValidationError(validator.GetValidationProblems(view), HttpResult.ValidationProblem)
             .Handle(r => service.Update(id, questionId, r))
-            .OnStatus(TrainingQuestionStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(TrainingQuestionStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(TrainingQuestionStatusEnum.OshProgramNotFound, HttpResult.NotFound)
             .Respond();
     }
@@ -63,7 +63,7 @@ public class OshProgramTrainingController(
     {
         return new Response<TrainingQuestionViewCreate, TrainingQuestionStatusEnum>()
             .Handle(_ => service.Delete(id, questionId))
-            .OnStatus(TrainingQuestionStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(TrainingQuestionStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(TrainingQuestionStatusEnum.OshProgramNotFound, HttpResult.NotFound)
             .Respond();
     }

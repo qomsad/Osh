@@ -22,7 +22,7 @@ public class AuthController(AuthService service) : Controller
         return new Response<AuthRequest, AuthStatusEnum>()
             .Handle(_ => service.Authenticate(request))
             .OnStatus(AuthStatusEnum.UserNotFound, HttpResult.NotFound)
-            .OnStatus(AuthStatusEnum.UserPasswordMismatch, HttpResult.Unauthorized)
+            .OnStatus(AuthStatusEnum.UserPasswordMismatch, HttpResult.Forbidden)
             .Respond();
     }
 }

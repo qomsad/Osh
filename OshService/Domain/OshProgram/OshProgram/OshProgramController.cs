@@ -24,7 +24,7 @@ public class OshProgramController(
         return new Response<OshProgramViewCreate, OshProgramStatusEnum>()
             .OnValidationError(validator.GetValidationProblems(view), HttpResult.ValidationProblem)
             .Handle(service.Create)
-            .OnStatus(OshProgramStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .Respond();
     }
 
@@ -39,7 +39,7 @@ public class OshProgramController(
     {
         return new Response<OshProgramViewCreate, OshProgramStatusEnum>()
             .Handle(_ => service.GetById(id))
-            .OnStatus(OshProgramStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .Respond();
     }
 
@@ -49,7 +49,7 @@ public class OshProgramController(
         return new Response<OshProgramViewCreate, OshProgramStatusEnum>()
             .OnValidationError(validator.GetValidationProblems(view), HttpResult.ValidationProblem)
             .Handle(r => service.Update(id, r))
-            .OnStatus(OshProgramStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .Respond();
     }
 
@@ -58,7 +58,7 @@ public class OshProgramController(
     {
         return new Response<OshProgramViewCreate, OshProgramStatusEnum>()
             .Handle(_ => service.Delete(id))
-            .OnStatus(OshProgramStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .Respond();
     }
 }

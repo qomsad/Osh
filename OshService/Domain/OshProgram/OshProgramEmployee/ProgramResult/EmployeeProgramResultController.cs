@@ -18,7 +18,7 @@ public class EmployeeProgramResultController(EmployeeProgramResultService servic
     {
         return new Response<object, OshProgramResultStatusEnum>()
             .Handle(_ => service.Result(id))
-            .OnStatus(OshProgramResultStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramResultStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(OshProgramResultStatusEnum.OshProgramNotFound, HttpResult.NotFound)
             .OnStatus(OshProgramResultStatusEnum.Timeout, HttpResult.Forbidden)
             .Respond();

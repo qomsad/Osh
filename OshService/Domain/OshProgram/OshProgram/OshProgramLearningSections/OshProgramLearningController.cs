@@ -25,7 +25,7 @@ public class OshProgramLearningController(
         return new Response<LearningSectionViewCreate, LearningSectionStatusEnum>()
             .OnValidationError(validator.GetValidationProblems(view), HttpResult.ValidationProblem)
             .Handle(r => service.Create(id, r))
-            .OnStatus(LearningSectionStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(LearningSectionStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(LearningSectionStatusEnum.OshProgramNotFound, HttpResult.NotFound)
             .Respond();
     }
@@ -41,7 +41,7 @@ public class OshProgramLearningController(
     {
         return new Response<LearningSectionViewCreate, LearningSectionStatusEnum>()
             .Handle(_ => service.GetById(id, sectionId))
-            .OnStatus(LearningSectionStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(LearningSectionStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .Respond();
     }
 
@@ -52,7 +52,7 @@ public class OshProgramLearningController(
         return new Response<LearningSectionViewCreate, LearningSectionStatusEnum>()
             .OnValidationError(validator.GetValidationProblems(view), HttpResult.ValidationProblem)
             .Handle(r => service.Update(id, sectionId, r))
-            .OnStatus(LearningSectionStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(LearningSectionStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .Respond();
     }
 
@@ -61,7 +61,7 @@ public class OshProgramLearningController(
     {
         return new Response<LearningSectionViewCreate, LearningSectionStatusEnum>()
             .Handle(_ => service.Delete(id, sectionId))
-            .OnStatus(LearningSectionStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(LearningSectionStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .Respond();
     }
 }

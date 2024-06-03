@@ -24,7 +24,7 @@ public class UserEmployeeController(
         return new Response<UserEmployeeViewCreate, UserEmployeeStatusEnum>()
             .OnValidationError(validator.GetValidationProblems(view), HttpResult.ValidationProblem)
             .Handle(service.Create)
-            .OnStatus(UserEmployeeStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(UserEmployeeStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(UserEmployeeStatusEnum.SpecialtyNotFound, HttpResult.NotFound)
             .OnStatus(UserEmployeeStatusEnum.UserLoginExists, HttpResult.Conflict)
             .Respond();
@@ -47,7 +47,7 @@ public class UserEmployeeController(
     {
         return new Response<UserEmployeeViewCreate, UserEmployeeStatusEnum>()
             .Handle(_ => service.GetById(id))
-            .OnStatus(UserEmployeeStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(UserEmployeeStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .Respond();
     }
 
@@ -57,7 +57,7 @@ public class UserEmployeeController(
         return new Response<UserEmployeeViewCreate, UserEmployeeStatusEnum>()
             .OnValidationError(validator.GetValidationProblems(view), HttpResult.ValidationProblem)
             .Handle(r => service.Update(id, r))
-            .OnStatus(UserEmployeeStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(UserEmployeeStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(UserEmployeeStatusEnum.SpecialtyNotFound, HttpResult.NotFound)
             .OnStatus(UserEmployeeStatusEnum.UserLoginExists, HttpResult.Conflict)
             .Respond();
@@ -68,7 +68,7 @@ public class UserEmployeeController(
     {
         return new Response<UserEmployeeViewCreate, UserEmployeeStatusEnum>()
             .Handle(_ => service.Delete(id))
-            .OnStatus(UserEmployeeStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(UserEmployeeStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(UserEmployeeStatusEnum.SpecialtyNotFound, HttpResult.NotFound)
             .Respond();
     }

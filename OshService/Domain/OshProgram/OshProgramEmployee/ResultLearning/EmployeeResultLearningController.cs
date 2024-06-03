@@ -18,7 +18,7 @@ public class EmployeeResultLearningController(EmployeeResultLearningService serv
     {
         return new Response<object, OshProgramResultStatusEnum>()
             .Handle(_ => service.Result(id, learningId))
-            .OnStatus(OshProgramResultStatusEnum.NoPrivilegesAvailable, HttpResult.Unauthorized)
+            .OnStatus(OshProgramResultStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(OshProgramResultStatusEnum.OshProgramNotFound, HttpResult.NotFound)
             .Respond();
     }
