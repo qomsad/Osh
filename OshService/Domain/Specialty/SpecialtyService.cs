@@ -80,7 +80,7 @@ public class SpecialtyService(SpecialtyRepository repository, IMapper mapper, Se
         {
             repository.Delete(entity);
         }
-        catch (DbUpdateException _)
+        catch (DbUpdateException)
         {
             return new Result<SpecialtyStatusEnum>(SpecialtyStatusEnum.DeleteLock);
         }
