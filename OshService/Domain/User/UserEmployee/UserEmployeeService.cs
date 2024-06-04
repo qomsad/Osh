@@ -76,7 +76,7 @@ public class UserEmployeeService(
         return new Result<UserEmployeeStatusEnum>(mapper.Map<UserEmployeeViewRead>(entity));
     }
 
-    public Result<UserEmployeeStatusEnum> Update(long id, UserEmployeeViewCreate view)
+    public Result<UserEmployeeStatusEnum> Update(long id, UserEmployeeViewUpdate view)
     {
         var organizationId = privilege.GetCurrentAdministratorOrganization();
         var entity = repository.GetById(id, organizationId);
@@ -90,16 +90,13 @@ public class UserEmployeeService(
         {
             return new Result<UserEmployeeStatusEnum>(UserEmployeeStatusEnum.SpecialtyNotFound);
         }
-
-        if (repository.GetByLogin(view.Login)?.Id != entity.Id)
-        {
-            return new Result<UserEmployeeStatusEnum>(UserEmployeeStatusEnum.UserLoginExists);
-        }
-
         mapper.Map(view, entity);
-        var (passwordHash, passwordSalt) = HashUtils.GeneratePasswordHash(view.Password);
-        entity.PasswordHash = passwordHash;
-        entity.PasswordSalt = passwordSalt;
+        if (view.Password != null)
+        {
+            var (passwordHash, passwordSalt) = HashUtils.GeneratePasswordHash(view.Password);
+            entity.PasswordHash = passwordHash;
+            entity.PasswordSalt = passwordSalt;
+        }
         entity.SpecialityId = specialty.Id;
         repository.Update(entity);
         var result = repository.Get().FirstOrDefault(e => e.Id == entity.Id);

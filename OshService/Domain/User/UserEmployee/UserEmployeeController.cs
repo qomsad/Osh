@@ -52,14 +52,12 @@ public class UserEmployeeController(
     }
 
     [HttpPut("{id:long}")]
-    public IActionResult Update([FromRoute] long id, [FromBody] UserEmployeeViewCreate view)
+    public IActionResult Update([FromRoute] long id, [FromBody] UserEmployeeViewUpdate view)
     {
-        return new Response<UserEmployeeViewCreate, UserEmployeeStatusEnum>()
-            .OnValidationError(validator.GetValidationProblems(view), HttpResult.ValidationProblem)
-            .Handle(r => service.Update(id, r))
+        return new Response<UserEmployeeViewUpdate, UserEmployeeStatusEnum>()
+            .Handle(_ => service.Update(id, view))
             .OnStatus(UserEmployeeStatusEnum.NoPrivilegesAvailable, HttpResult.Forbidden)
             .OnStatus(UserEmployeeStatusEnum.SpecialtyNotFound, HttpResult.NotFound)
-            .OnStatus(UserEmployeeStatusEnum.UserLoginExists, HttpResult.Conflict)
             .Respond();
     }
 

@@ -7,6 +7,7 @@ public class UserEmployeeMapper : Profile
     public UserEmployeeMapper()
     {
         CreateMap<UserEmployeeViewCreate, UserEmployeeModel>();
+        CreateMap<UserEmployeeViewUpdate, UserEmployeeModel>();
         CreateMap<UserEmployeeModel, UserEmployeeViewRead>();
     }
 }
