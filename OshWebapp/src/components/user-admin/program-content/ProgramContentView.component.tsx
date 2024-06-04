@@ -231,11 +231,11 @@ function ProgramContentView() {
               </form>
             </Tabs.Panel>
 
-            <Tabs.Panel value="learning">
+            <Tabs.Panel value="learning" style={{ width: "90%" }}>
               <MaterialLearning programId={parseInt(id)} />
             </Tabs.Panel>
 
-            <Tabs.Panel value="training">
+            <Tabs.Panel value="training" style={{ width: "90%" }}>
               <MaterialTraining programId={parseInt(id)} />
             </Tabs.Panel>
           </Stack>

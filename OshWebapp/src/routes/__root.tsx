@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 
 const TanStackRouterDevtools =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === "production" || process.env.NODE_ENV === "development"
     ? () => null
     : React.lazy(() =>
         import("@tanstack/router-devtools").then((res) => ({
@@ -11,7 +11,7 @@ const TanStackRouterDevtools =
       );
 
 const TanStackQueryDevtools =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === "production" || process.env.NODE_ENV === "development"
     ? () => null
     : React.lazy(() =>
         import("@tanstack/react-query-devtools").then((res) => ({
@@ -24,7 +24,7 @@ export const Route = createRootRoute({
     <>
       <Outlet />
       <Suspense>
-        <TanStackQueryDevtools/>
+        <TanStackQueryDevtools />
         <TanStackRouterDevtools />
       </Suspense>
     </>

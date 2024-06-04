@@ -6,14 +6,25 @@ export const open = axios.create({
   headers: { accept: "application/json", "Content-Type": "application/json" },
 });
 
-export const auth = () => axios.create({
-  timeout: 10000,
-  headers: {
-    accept: "application/json",
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${getToken()}`,
-  },
-});
+export const auth = () =>
+  axios.create({
+    timeout: 10000,
+    headers: {
+      accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+export const authFileSend = () =>
+  axios.create({
+    timeout: 10000,
+    headers: {
+      accept: "application/json",
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
 
 function getToken() {
   const item = localStorage.getItem("auth");

@@ -24,6 +24,9 @@ import "@mantine/notifications/styles.css";
 
 import { Notifications } from "@mantine/notifications";
 
+import "react-pdf/dist/Page/TextLayer.css";
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+
 ReactDOM.createRoot(document.querySelector("app-root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
