@@ -3,6 +3,7 @@ using AspBoot.Service;
 using AspBoot.Utils;
 using AutoMapper;
 using OshService.Auth;
+using OshService.Domain.User.User;
 using OshService.Domain.User.UserAdministrator;
 using OshService.Setup.SetupPrivilege;
 
@@ -11,6 +12,7 @@ namespace OshService.Setup.SuperUser;
 [Service]
 public class SetupUserService(
     UserAdministratorRepository repository,
+    UserRepository userRepository,
     IMapper mapper,
     SetupPrivilegeRepository privilege,
     AuthService auth
@@ -23,7 +25,7 @@ public class SetupUserService(
             return new Result<SetupUserStatusEnum>(SetupUserStatusEnum.NoPrivilegesAvailable);
         }
 
-        if (repository.GetByLogin(request.Login) != null)
+        if (userRepository.GetByLogin(request.Login) != null)
         {
             return new Result<SetupUserStatusEnum>(SetupUserStatusEnum.UserLoginExists);
         }

@@ -5,6 +5,7 @@ using AspBoot.Service;
 using AspBoot.Utils;
 using AutoMapper;
 using OshService.Domain.Specialty;
+using OshService.Domain.User.User;
 using OshService.Security;
 
 namespace OshService.Domain.User.UserEmployee;
@@ -13,6 +14,7 @@ namespace OshService.Domain.User.UserEmployee;
 public class UserEmployeeService(
     UserEmployeeRepository repository,
     SpecialtyRepository specialtyRepository,
+    UserRepository userRepository,
     IMapper mapper,
     SecurityService privilege
 )
@@ -31,7 +33,7 @@ public class UserEmployeeService(
             return new Result<UserEmployeeStatusEnum>(UserEmployeeStatusEnum.SpecialtyNotFound);
         }
 
-        if (repository.GetByLogin(view.Login) != null)
+        if (userRepository.GetByLogin(view.Login) != null)
         {
             return new Result<UserEmployeeStatusEnum>(UserEmployeeStatusEnum.UserLoginExists);
         }
