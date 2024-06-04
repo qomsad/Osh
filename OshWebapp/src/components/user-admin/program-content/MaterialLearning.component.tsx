@@ -273,6 +273,7 @@ function AddAction({ onOk, onCancel, api }: { onOk: () => void; onCancel: () => 
         <TextInput label="Название" w="100%" key={form.key("name")} {...form.getInputProps("name")} />
         <Textarea
           label="Текст"
+          autosize
           placeholder="Текст который будет отображатся до просмотра файла"
           key={form.key("text")}
           {...form.getInputProps("text")}
@@ -376,6 +377,7 @@ function EditAction({
         <TextInput label="Название" w="100%" key={form.key("name")} {...form.getInputProps("name")} />
         <Textarea
           label="Текст"
+          autosize
           placeholder="Текст который будет отображатся до просмотра файла"
           key={form.key("text")}
           {...form.getInputProps("text")}
