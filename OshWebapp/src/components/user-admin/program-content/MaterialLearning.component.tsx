@@ -4,7 +4,19 @@ import { SearchPageRes } from "../../../models/SearchPageRes.ts";
 // @ts-ignore
 import { DataGrid, DataGridPaginationState } from "mantine-data-grid";
 import { locale } from "../../../utils/locale.tsx";
-import { ActionIcon, Button, Center, FileInput, Group, Modal, Stack, Text, Textarea, TextInput } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  Center,
+  Checkbox,
+  FileInput,
+  Group,
+  Modal,
+  Stack,
+  Text,
+  Textarea,
+  TextInput,
+} from "@mantine/core";
 import { CloudUpload, Eye, Pencil, Plus, ShieldAlert, Trash2 } from "lucide-react";
 import { Learning } from "../../../models/domain/Learning.tsx";
 import { useEffect, useState } from "react";
@@ -300,10 +312,15 @@ function EditAction({
 }) {
   const [loading, setLoading] = useState(false);
 
+  const [file, setFile] = useState<File | null>(null);
+  const [isUrlCheck, setIsUrlCheck] = useState(false);
+  const [oldFile, setOldFile] = useState("");
+
   const form = useForm({
     mode: "controlled",
     initialValues: {
       name: "",
+      text: "",
     },
   });
 
@@ -311,6 +328,10 @@ function EditAction({
     api.getById(id).then((value) => {
       if (value) {
         form.setFieldValue("name", value.name);
+        form.setFieldValue("text", value.text);
+        if (value?.learningSectionFile && value.learningSectionFile?.filePath) {
+          setOldFile(value.learningSectionFile.filePath);
+        }
       }
       form.resetDirty();
     });
@@ -325,13 +346,59 @@ function EditAction({
         style={{ width: "100%" }}
         onSubmit={form.onSubmit(async (values) => {
           setLoading(true);
-          const res = await api.update(id, { ...values });
-          setLoading(false);
-          if (res != "ERROR") {
-            onOk();
+          if (file) {
+            const byte = await file.arrayBuffer();
+
+            const form = new FormData();
+            form.append("file", new Blob([byte]));
+            const res = await authFileSend().post("/api/s3", form).catch(ErrorHandler);
+            if (res?.data && res.data.id) {
+              const val = { ...values, learningSectionFile: { fileType: "Pdf", filePath: res.data.id } };
+              const data = await api.update(id, val);
+              if (data != "ERROR") {
+                onOk();
+              }
+            }
+          } else {
+            let val;
+            if (oldFile !== "") {
+              val = { ...values, learningSectionFile: { fileType: "Pdf", filePath: oldFile } };
+            } else {
+              val = { ...values };
+            }
+            const data = await api.update(id, val);
+            if (data != "ERROR") {
+              onOk();
+            }
           }
+          setLoading(false);
         })}>
         <TextInput label="Название" w="100%" key={form.key("name")} {...form.getInputProps("name")} />
+        <Textarea
+          label="Текст"
+          placeholder="Текст который будет отображатся до просмотра файла"
+          key={form.key("text")}
+          {...form.getInputProps("text")}
+        />
+        <Checkbox
+          checked={isUrlCheck}
+          mt="xs"
+          onChange={() => {
+            setIsUrlCheck(!isUrlCheck);
+          }}
+          label="Изменить файл"
+        />
+        {isUrlCheck && (
+          <FileInput
+            leftSection={<CloudUpload />}
+            label="Загрузка файла"
+            placeholder="Открыть"
+            leftSectionPointerEvents="none"
+            accept="application/pdf"
+            value={file}
+            onChange={setFile}
+          />
+        )}
         <Group>
           <Button variant="filled" color="orange" radius="md" mt="xl" type="submit" loading={loading}>
             Изменить
