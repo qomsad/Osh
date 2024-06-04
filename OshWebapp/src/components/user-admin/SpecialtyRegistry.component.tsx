@@ -107,7 +107,7 @@ function SpecialtyRegistry() {
               {
                 accessorKey: "edit",
                 header: "Изменить",
-                size: 50,
+                size: 53,
                 //@ts-ignore
                 cell: (cell) => {
                   return (
@@ -126,7 +126,7 @@ function SpecialtyRegistry() {
               {
                 accessorKey: "delete",
                 header: "Удалить",
-                size: 50,
+                size: 45,
                 //@ts-ignore
                 cell: (cell) => {
                   return (
