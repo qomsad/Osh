@@ -16,7 +16,7 @@ public class FilesStorageService(IConfiguration configuration)
             return new Result<FilesStorageStatusEnum>(FilesStorageStatusEnum.ServerPathError);
         }
         var id = Guid.NewGuid().ToString();
-        var name = id + "." + file.FileName.Split(".")[^1];
+        var name = id + "." + "pdf";
         var path = Path.Combine(storage.Path, name);
         if (!(file.Length > 0))
         {
