@@ -14,15 +14,18 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as SetupIndexImport } from './routes/setup/index'
 import { Route as AdminIndexImport } from './routes/admin/index'
+import { Route as AIndexImport } from './routes/a/index'
 import { Route as SetupOrganizationImport } from './routes/setup/organization'
 import { Route as SetupAdminImport } from './routes/setup/admin'
 import { Route as AdminSpecialtyImport } from './routes/admin/specialty'
 import { Route as AdminResultImport } from './routes/admin/result'
 import { Route as AdminEmployeeImport } from './routes/admin/employee'
 import { Route as AdminAssignmentImport } from './routes/admin/assignment'
+import { Route as AResultsImport } from './routes/a/results'
 import { Route as AdminProgramIndexImport } from './routes/admin/program/index'
 import { Route as AdminProgramCreateImport } from './routes/admin/program/create'
 import { Route as AdminProgramIdImport } from './routes/admin/program/$id'
+import { Route as AProgramIdImport } from './routes/a/program/$id'
 
 // Create/Update Routes
 
@@ -38,6 +41,11 @@ const SetupIndexRoute = SetupIndexImport.update({
 
 const AdminIndexRoute = AdminIndexImport.update({
   path: '/admin/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AIndexRoute = AIndexImport.update({
+  path: '/a/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -71,6 +79,11 @@ const AdminAssignmentRoute = AdminAssignmentImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AResultsRoute = AResultsImport.update({
+  path: '/a/results',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AdminProgramIndexRoute = AdminProgramIndexImport.update({
   path: '/admin/program/',
   getParentRoute: () => rootRoute,
@@ -86,6 +99,11 @@ const AdminProgramIdRoute = AdminProgramIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AProgramIdRoute = AProgramIdImport.update({
+  path: '/a/program/$id',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -95,6 +113,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/a/results': {
+      id: '/a/results'
+      path: '/a/results'
+      fullPath: '/a/results'
+      preLoaderRoute: typeof AResultsImport
       parentRoute: typeof rootRoute
     }
     '/admin/assignment': {
@@ -139,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SetupOrganizationImport
       parentRoute: typeof rootRoute
     }
+    '/a/': {
+      id: '/a/'
+      path: '/a'
+      fullPath: '/a'
+      preLoaderRoute: typeof AIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/admin/': {
       id: '/admin/'
       path: '/admin'
@@ -151,6 +183,13 @@ declare module '@tanstack/react-router' {
       path: '/setup'
       fullPath: '/setup'
       preLoaderRoute: typeof SetupIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/a/program/$id': {
+      id: '/a/program/$id'
+      path: '/a/program/$id'
+      fullPath: '/a/program/$id'
+      preLoaderRoute: typeof AProgramIdImport
       parentRoute: typeof rootRoute
     }
     '/admin/program/$id': {
@@ -181,14 +220,17 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
+  AResultsRoute,
   AdminAssignmentRoute,
   AdminEmployeeRoute,
   AdminResultRoute,
   AdminSpecialtyRoute,
   SetupAdminRoute,
   SetupOrganizationRoute,
+  AIndexRoute,
   AdminIndexRoute,
   SetupIndexRoute,
+  AProgramIdRoute,
   AdminProgramIdRoute,
   AdminProgramCreateRoute,
   AdminProgramIndexRoute,
@@ -203,14 +245,17 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/a/results",
         "/admin/assignment",
         "/admin/employee",
         "/admin/result",
         "/admin/specialty",
         "/setup/admin",
         "/setup/organization",
+        "/a/",
         "/admin/",
         "/setup/",
+        "/a/program/$id",
         "/admin/program/$id",
         "/admin/program/create",
         "/admin/program/"
@@ -218,6 +263,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/a/results": {
+      "filePath": "a/results.tsx"
     },
     "/admin/assignment": {
       "filePath": "admin/assignment.tsx"
@@ -237,11 +285,17 @@ export const routeTree = rootRoute.addChildren({
     "/setup/organization": {
       "filePath": "setup/organization.tsx"
     },
+    "/a/": {
+      "filePath": "a/index.tsx"
+    },
     "/admin/": {
       "filePath": "admin/index.tsx"
     },
     "/setup/": {
       "filePath": "setup/index.tsx"
+    },
+    "/a/program/$id": {
+      "filePath": "a/program/$id.tsx"
     },
     "/admin/program/$id": {
       "filePath": "admin/program/$id.tsx"

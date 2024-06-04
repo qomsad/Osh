@@ -39,7 +39,7 @@ function AuthWithOrganizationComponent() {
           if (res.data.type === "Admin") {
             await navigate({ to: "/admin", resetScroll: true });
           } else if (res.data.type === "Employee") {
-            await navigate({ to: "/setup", resetScroll: true });
+            await navigate({ to: "/a", resetScroll: true });
           }
         }
       })
