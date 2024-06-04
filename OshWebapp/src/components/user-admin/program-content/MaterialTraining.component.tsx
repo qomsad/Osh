@@ -129,7 +129,11 @@ function MaterialTraining({ programId }: MaterialTrainingProps) {
           },
         ]}
       />
-      <Modal opened={addOpen} onClose={() => setAddOpen(false)} title={<Text fw={700}>Добавление вопроса</Text>}>
+      <Modal
+        opened={addOpen}
+        onClose={() => setAddOpen(false)}
+        title={<Text fw={700}>Добавление вопроса</Text>}
+        size="lg">
         <CreateQuestion
           onOk={async () => {
             setAddOpen(false);
