@@ -23,14 +23,13 @@ public class FileStorageController(FilesStorageService service) : Controller
     }
 
     [HttpGet("{id}")]
-    [Authorize]
     [SwaggerResponse((int) HttpStatusCode.OK, "Успешная аутентификация", typeof(FileResult))]
     public IActionResult GetFile([FromRoute] string id)
     {
         var file = service.Get(id);
         if (file != null)
         {
-            return File(file, MediaTypeNames.Application.Octet, "attach");
+            return File(file, MediaTypeNames.Application.Pdf, "attach");
         }
         return NotFound(new Result<FilesStorageStatusEnum>(FilesStorageStatusEnum.FileError));
     }
