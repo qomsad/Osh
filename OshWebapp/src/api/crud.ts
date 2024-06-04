@@ -46,7 +46,14 @@ export function getQuery<T>(url: string, inst: () => AxiosInstance): Api<T> {
     async create(entity: Partial<T>): Promise<string> {
       return await inst()
         .post<T>(`${url}`, { ...entity })
-        .then(({ statusText }) => statusText)
+        .then(({ data, statusText }) => {
+          if (Object.prototype.hasOwnProperty.call(data, "id")) {
+            let vars = data as any;
+            vars = vars as { id: number };
+            return vars.id.toString();
+          }
+          return statusText;
+        })
         .catch((err) => {
           ErrorHandler(err);
           return "ERROR";

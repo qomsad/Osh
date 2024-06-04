@@ -7,8 +7,8 @@ export interface OshProgram {
   learningMinutesDuration: number;
   trainingMinutesDuration: number;
   specialty: Specialty;
-  specialtyId: number;
-  autoAssignmentType: "FullManual";
+  specialityId: number;
+  autoAssignmentType: string;
   maxAutoAssignments: number;
   trainingSuccessRate: number;
 }

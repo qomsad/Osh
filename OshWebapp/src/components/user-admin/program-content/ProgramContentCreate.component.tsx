@@ -26,7 +26,7 @@ function ProgramContentCreate() {
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const form = useForm({
-    mode: "controlled",
+    mode: "uncontrolled",
     initialValues: {
       name: "",
       description: "",
@@ -73,7 +73,7 @@ function ProgramContentCreate() {
                     const res = await api.create({ ...val });
                     setLoading(false);
                     if (res != "ERROR") {
-                      await navigate({ to: "/admin/program", resetScroll: true });
+                      await navigate({ to: `/admin/program/${res}`, resetScroll: true });
                     }
                   },
                   () => {

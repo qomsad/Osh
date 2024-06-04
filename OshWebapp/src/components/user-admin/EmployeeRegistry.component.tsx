@@ -422,8 +422,8 @@ function EditAction({ id, onOk, onCancel }: { id: number; onOk: () => void; onCa
         form.setFieldValue("serviceNumber", value.serviceNumber);
         form.setFieldValue("specialtyId", value.specialty.id.toString());
         setLogin(value.login);
+        form.resetDirty({ ...value, specialtyId: value.specialty.id.toString(), password: "", passwordC: "" });
       }
-      form.resetDirty();
     });
   }, []);
 

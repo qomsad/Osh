@@ -94,7 +94,7 @@ function ProgramRegistry() {
                 size: 300,
               },
               {
-                accessorKey: "specialty.name",
+                accessorFn: (row: any) => `${row.specialty?.name ?? ""}`,
                 header: "Специальность",
                 size: 300,
               },
