@@ -104,7 +104,6 @@ function ProgramRegistry() {
                 size: 53,
                 //@ts-ignore
                 cell: (cell) => {
-                  console.log(cell);
                   return (
                     <ActionIcon
                       size="md"

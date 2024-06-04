@@ -39,6 +39,7 @@ function CreateSuperUserFrom() {
             style={{ width: "100%" }}
             onSubmit={form.onSubmit(
               (values) => {
+                // todo
                 console.log(values);
               },
               () => {
@@ -135,6 +136,7 @@ function CreateSuperUserFrom() {
                   <span>Создать супер пользователя</span>
                 )}
               </Button>
+              {/* todo*/}
               <Button
                 variant="default"
                 size="xs"

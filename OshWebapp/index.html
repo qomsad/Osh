@@ -2,19 +2,25 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="/vite.svg" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0" />
-    <script
-      type="module"
-      src="/src/main.tsx"></script>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="/src/main.tsx"></script>
     <title>osh-webapp</title>
   </head>
   <body>
+    <script>
+      function resize() {
+        const scale = document.documentElement.getBoundingClientRect().width / 1500;
+        if (scale < 1) {
+          document.querySelector("body").style.transform = "scale(" + scale + ")";
+          document.querySelector("body").style.transformOrigin = "top left";
+          document.querySelector("body").style.width = "1477px";
+        }
+      }
+
+      resize();
+      window.addEventListener("resize", resize);
+    </script>
     <app-root></app-root>
   </body>
 </html>
