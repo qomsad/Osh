@@ -29,7 +29,11 @@ public class OshProgramService(OshProgramRepository repository, IMapper mapper, 
     public PageSearched<OshProgramViewRead> Search(RequestPageSearch request)
     {
         var page = repository.Search(request,
-            query => repository.OrganizationScope(privilege.GetCurrentAdministratorOrganization(), query));
+            query =>
+            {
+                query = query.OrderBy(e => e.Id);
+                return repository.OrganizationScope(privilege.GetCurrentAdministratorOrganization(), query);
+            });
 
         return page.MapPageSearched(mapper.Map<IEnumerable<OshProgramViewRead>>);
     }
