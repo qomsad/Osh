@@ -18,9 +18,11 @@ import { Route as SetupOrganizationImport } from './routes/setup/organization'
 import { Route as SetupAdminImport } from './routes/setup/admin'
 import { Route as AdminSpecialtyImport } from './routes/admin/specialty'
 import { Route as AdminResultImport } from './routes/admin/result'
-import { Route as AdminProgramImport } from './routes/admin/program'
 import { Route as AdminEmployeeImport } from './routes/admin/employee'
 import { Route as AdminAssignmentImport } from './routes/admin/assignment'
+import { Route as AdminProgramIndexImport } from './routes/admin/program/index'
+import { Route as AdminProgramCreateImport } from './routes/admin/program/create'
+import { Route as AdminProgramIdImport } from './routes/admin/program/$id'
 
 // Create/Update Routes
 
@@ -59,11 +61,6 @@ const AdminResultRoute = AdminResultImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AdminProgramRoute = AdminProgramImport.update({
-  path: '/admin/program',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const AdminEmployeeRoute = AdminEmployeeImport.update({
   path: '/admin/employee',
   getParentRoute: () => rootRoute,
@@ -71,6 +68,21 @@ const AdminEmployeeRoute = AdminEmployeeImport.update({
 
 const AdminAssignmentRoute = AdminAssignmentImport.update({
   path: '/admin/assignment',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminProgramIndexRoute = AdminProgramIndexImport.update({
+  path: '/admin/program/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminProgramCreateRoute = AdminProgramCreateImport.update({
+  path: '/admin/program/create',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminProgramIdRoute = AdminProgramIdImport.update({
+  path: '/admin/program/$id',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -97,13 +109,6 @@ declare module '@tanstack/react-router' {
       path: '/admin/employee'
       fullPath: '/admin/employee'
       preLoaderRoute: typeof AdminEmployeeImport
-      parentRoute: typeof rootRoute
-    }
-    '/admin/program': {
-      id: '/admin/program'
-      path: '/admin/program'
-      fullPath: '/admin/program'
-      preLoaderRoute: typeof AdminProgramImport
       parentRoute: typeof rootRoute
     }
     '/admin/result': {
@@ -148,6 +153,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SetupIndexImport
       parentRoute: typeof rootRoute
     }
+    '/admin/program/$id': {
+      id: '/admin/program/$id'
+      path: '/admin/program/$id'
+      fullPath: '/admin/program/$id'
+      preLoaderRoute: typeof AdminProgramIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/program/create': {
+      id: '/admin/program/create'
+      path: '/admin/program/create'
+      fullPath: '/admin/program/create'
+      preLoaderRoute: typeof AdminProgramCreateImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/program/': {
+      id: '/admin/program/'
+      path: '/admin/program'
+      fullPath: '/admin/program'
+      preLoaderRoute: typeof AdminProgramIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -157,13 +183,15 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   AdminAssignmentRoute,
   AdminEmployeeRoute,
-  AdminProgramRoute,
   AdminResultRoute,
   AdminSpecialtyRoute,
   SetupAdminRoute,
   SetupOrganizationRoute,
   AdminIndexRoute,
   SetupIndexRoute,
+  AdminProgramIdRoute,
+  AdminProgramCreateRoute,
+  AdminProgramIndexRoute,
 })
 
 /* prettier-ignore-end */
@@ -177,13 +205,15 @@ export const routeTree = rootRoute.addChildren({
         "/",
         "/admin/assignment",
         "/admin/employee",
-        "/admin/program",
         "/admin/result",
         "/admin/specialty",
         "/setup/admin",
         "/setup/organization",
         "/admin/",
-        "/setup/"
+        "/setup/",
+        "/admin/program/$id",
+        "/admin/program/create",
+        "/admin/program/"
       ]
     },
     "/": {
@@ -194,9 +224,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/admin/employee": {
       "filePath": "admin/employee.tsx"
-    },
-    "/admin/program": {
-      "filePath": "admin/program.tsx"
     },
     "/admin/result": {
       "filePath": "admin/result.tsx"
@@ -215,6 +242,15 @@ export const routeTree = rootRoute.addChildren({
     },
     "/setup/": {
       "filePath": "setup/index.tsx"
+    },
+    "/admin/program/$id": {
+      "filePath": "admin/program/$id.tsx"
+    },
+    "/admin/program/create": {
+      "filePath": "admin/program/create.tsx"
+    },
+    "/admin/program/": {
+      "filePath": "admin/program/index.tsx"
     }
   }
 }
