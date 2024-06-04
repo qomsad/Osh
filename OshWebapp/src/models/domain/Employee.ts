@@ -9,6 +9,6 @@ export interface Employee {
   lastName: string;
   serviceNumber: string;
   specialty: Specialty;
-  specialtyId: number;
+  specialityId: number;
   password?: string;
 }
