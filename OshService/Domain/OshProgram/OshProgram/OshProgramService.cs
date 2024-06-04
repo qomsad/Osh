@@ -31,7 +31,7 @@ public class OshProgramService(OshProgramRepository repository, IMapper mapper, 
         var page = repository.Search(request,
             query =>
             {
-                query = query.OrderBy(e => e.Id);
+                query = query.OrderByDescending(e => e.Id);
                 return repository.OrganizationScope(privilege.GetCurrentAdministratorOrganization(), query);
             });
 
