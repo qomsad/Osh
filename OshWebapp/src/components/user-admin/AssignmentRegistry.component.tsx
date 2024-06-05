@@ -21,7 +21,7 @@ function AssignmentRegistry() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<SearchPageRes<Assigment>>({
     content: [],
-    totalCount: 0
+    totalCount: 0,
   });
 
   const [pagination, setPagination] = useState<DataGridPaginationState>({ pageIndex: 0, pageSize: 5 });
@@ -57,7 +57,6 @@ function AssignmentRegistry() {
               }
             }}
             withPagination
-            withGlobalFilter
             state={{ pagination }}
             loading={loading}
             locale={locale}
@@ -76,7 +75,7 @@ function AssignmentRegistry() {
               {
                 accessorKey: "id",
                 header: "#",
-                size: 50
+                size: 50,
               },
               {
                 accessorFn: (row: any) => {
@@ -86,22 +85,22 @@ function AssignmentRegistry() {
                   return `(${row.employee.login})`;
                 },
                 header: "Сотрудник",
-                size: 300
+                size: 300,
               },
               {
                 accessorFn: (row: any) => {
                   return `${row.oshProgram.name}`;
                 },
                 header: "Программа обучения",
-                size: 300
+                size: 300,
               },
               {
                 accessorKey: "assignmentDate",
                 header: "Назначена",
                 size: 150,
                 //@ts-ignore
-                cell: (cell) => new Date(cell?.getValue<Date>()).toLocaleString()
-              }
+                cell: (cell) => new Date(cell?.getValue<Date>()).toLocaleString(),
+              },
             ]}
           />
         </Stack>
@@ -113,7 +112,7 @@ function AssignmentRegistry() {
             setPagination((prev: DataGridPaginationState) => {
               return {
                 pageIndex: 0,
-                pageSize: prev.pageSize
+                pageSize: prev.pageSize,
               };
             });
             await load();
@@ -136,8 +135,8 @@ function AddAction({ onOk, onCancel }: { onOk: () => void; onCancel: () => void 
     mode: "controlled",
     initialValues: {
       userEmployeeId: "",
-      oshProgramId: ""
-    }
+      oshProgramId: "",
+    },
   });
 
   const [searchProgram, setSearchProgram] = useState("");
@@ -154,67 +153,67 @@ function AddAction({ onOk, onCancel }: { onOk: () => void; onCancel: () => void 
     setSelectEmployee(
       content.map((x) => ({
         value: x.id.toString(),
-        label: `${x.lastName} ${x.firstName} ${x.middleName}`
-      }))
+        label: `${x.lastName} ${x.firstName} ${x.middleName}`,
+      })),
     );
   };
-useEffect(() => {
-  (async () => await searchProgramFn())();
-}, [searchProgram]);
+  useEffect(() => {
+    (async () => await searchProgramFn())();
+  }, [searchProgram]);
 
-useEffect(() => {
-  (async () => await searchEmployeeFn())();
-}, [searchEmployee]);
+  useEffect(() => {
+    (async () => await searchEmployeeFn())();
+  }, [searchEmployee]);
 
-return (
-  <Stack>
-    <form
-      style={{ width: "100%" }}
-      onSubmit={form.onSubmit(async (values) => {
-        const val = {
-          oshProgramId: parseInt(values.oshProgramId),
-          userEmployeeId: parseInt(values.userEmployeeId)
-        };
-        setLoading(true);
-        const res = await api.create({ ...val });
-        setLoading(false);
-        if (res != "ERROR") {
-          onOk();
-        }
-      })}>
-      <Select
-        label="Сотрудник"
-        w="100%"
-        searchable
-        searchValue={searchEmployee}
-        onSearchChange={setSearchEmployee}
-        data={selectEmployee}
-        key={form.key("userEmployeeId")}
-        {...form.getInputProps("userEmployeeId")}
-      />
+  return (
+    <Stack>
+      <form
+        style={{ width: "100%" }}
+        onSubmit={form.onSubmit(async (values) => {
+          const val = {
+            oshProgramId: parseInt(values.oshProgramId),
+            userEmployeeId: parseInt(values.userEmployeeId),
+          };
+          setLoading(true);
+          const res = await api.create({ ...val });
+          setLoading(false);
+          if (res != "ERROR") {
+            onOk();
+          }
+        })}>
+        <Select
+          label="Сотрудник"
+          w="100%"
+          searchable
+          searchValue={searchEmployee}
+          onSearchChange={setSearchEmployee}
+          data={selectEmployee}
+          key={form.key("userEmployeeId")}
+          {...form.getInputProps("userEmployeeId")}
+        />
 
-      <Select
-        label="Программа обучения"
-        w="100%"
-        searchable
-        searchValue={searchProgram}
-        onSearchChange={setSearchProgram}
-        data={selectProgram}
-        key={form.key("oshProgramId")}
-        {...form.getInputProps("oshProgramId")}
-      />
+        <Select
+          label="Программа обучения"
+          w="100%"
+          searchable
+          searchValue={searchProgram}
+          onSearchChange={setSearchProgram}
+          data={selectProgram}
+          key={form.key("oshProgramId")}
+          {...form.getInputProps("oshProgramId")}
+        />
 
-      <Group>
-        <Button variant="filled" color="green" radius="md" mt="xl" type="submit" loading={loading}>
-          Назначить
-        </Button>
-        <Button variant="light" radius="md" mt="xl" onClick={onCancel}>
-          Отмена
-        </Button>
-      </Group>
-    </form>
-  </Stack>
-);
+        <Group>
+          <Button variant="filled" color="green" radius="md" mt="xl" type="submit" loading={loading}>
+            Назначить
+          </Button>
+          <Button variant="light" radius="md" mt="xl" onClick={onCancel}>
+            Отмена
+          </Button>
+        </Group>
+      </form>
+    </Stack>
+  );
 }
 
 export { AssignmentRegistry };
