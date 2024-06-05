@@ -1,7 +1,6 @@
 import { AppShell, Button, Group, Stack, TextInput, Title } from "@mantine/core";
 import { Building, Search } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { CardOrganizationOpenComponent } from "./CardOrganizationOpen.component.tsx";
 import { AppShellOpen } from "./AppShellOpen.component.tsx";
 
 function SetupIndexComponent() {
@@ -21,7 +20,6 @@ function SetupIndexComponent() {
               <span style={{ color: "#1c8139" }}>Создать</span>
             </Button>
           </Group>
-          <CardOrganizationOpenComponent name={"ООО Ромашка"} url={"pom.osh.skapex.ru"} />
         </Stack>
       </AppShell.Main>
     </AppShellOpen>

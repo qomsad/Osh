@@ -61,7 +61,7 @@ function AuthWithOrganizationComponent() {
   async function authRequest(values: AuthRequest) {
     try {
       setLoading(true);
-      const res = await open.post<AuthResponse>("api/auth/login", {
+      const res = await open().post<AuthResponse>("api/auth/login", {
         login: values.login,
         password: values.password,
       });

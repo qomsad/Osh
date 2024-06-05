@@ -43,7 +43,7 @@ function CreateOrganizationForm() {
             style={{ width: "100%" }}
             onSubmit={form.onSubmit(
               async (values) => {
-                const data = await auth().post("/api/setup/user", values).catch(ErrorHandler);
+                const data = await auth().post("/api/setup/organization", values).catch(ErrorHandler);
                 if (data) {
                   await navigate({ to: "/", resetScroll: true });
                 }
@@ -124,9 +124,6 @@ function CreateOrganizationForm() {
                 ) : (
                   <span>Создать организацию</span>
                 )}
-              </Button>
-              <Button variant="default" size="xs" onClick={() => navigate({ to: "/", resetScroll: true })}>
-                <span style={{ color: "#1c8139" }}>Создать</span>
               </Button>
             </Card>
           </form>
