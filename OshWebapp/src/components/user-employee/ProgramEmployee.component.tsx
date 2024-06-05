@@ -19,9 +19,6 @@ function ProgramEmployee() {
     const res = await assigmmentApi.getById(id);
     if (res) {
       setProgram(res);
-      if (res.startLearning === null) {
-        await auth().patch(`/api/employee/osh-program/${id}/start-learning`);
-      }
     }
   }
 

@@ -1,6 +1,6 @@
 import { AppShellEmployee } from "./AppShellEmployee.component.tsx";
 import { AppShell, Card, Group, SimpleGrid, Stack, Text, Title, UnstyledButton } from "@mantine/core";
-import { Link } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { getQuery } from "../../api/crud.ts";
 import { auth } from "../../api/api.ts";
 import { useEffect, useState } from "react";
@@ -35,6 +35,8 @@ function HomeEmployee() {
                 name={program.oshProgram.name}
                 date={program.assignmentDate}
                 url={`/a/program/${program.id}`}
+                id={program.id}
+                need={!program.startTraining}
               />
             ))}
           </SimpleGrid>
@@ -44,9 +46,30 @@ function HomeEmployee() {
   );
 }
 
-function Program({ url, name, specialty, date }: { url: string; name: string; specialty: string; date: string }) {
+function Program({
+  url,
+  name,
+  specialty,
+  date,
+  id,
+  need,
+}: {
+  url: string;
+  name: string;
+  specialty: string;
+  date: string;
+  id: number;
+  need?: boolean;
+}) {
+  const navigate = useNavigate();
   return (
-    <UnstyledButton component={Link} to={url}>
+    <UnstyledButton
+      onClick={async () => {
+        if (need) {
+          await auth().patch(`/api/employee/osh-program/${id}/start-learning`);
+        }
+        navigate({ to: url });
+      }}>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Text size="xs" ta="center">
           {specialty}
