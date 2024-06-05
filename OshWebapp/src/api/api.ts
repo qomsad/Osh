@@ -1,10 +1,11 @@
 import axios from "axios";
 import { AuthResponse } from "../models/auth/AuthResponse.ts";
 
-export const open = axios.create({
-  timeout: 10000,
-  headers: { accept: "application/json", "Content-Type": "application/json" },
-});
+export const open = () =>
+  axios.create({
+    timeout: 10000,
+    headers: { accept: "application/json", "Content-Type": "application/json" },
+  });
 
 export const auth = () =>
   axios.create({

@@ -2,6 +2,8 @@ import { Button, Card, Checkbox, Grid, Select, Stack, Stepper, Text, TextInput, 
 import { isNotEmpty, matches, useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
+import { auth } from "../../api/api.ts";
+import { ErrorHandler } from "../../api/ErrorHadler.ts";
 
 function CreateOrganizationForm() {
   useEffect(() => {
@@ -40,9 +42,11 @@ function CreateOrganizationForm() {
           <form
             style={{ width: "100%" }}
             onSubmit={form.onSubmit(
-              (values) => {
-                // todo
-                console.log(values);
+              async (values) => {
+                const data = await auth().post("/api/setup/user", values).catch(ErrorHandler);
+                if (data) {
+                  await navigate({ to: "/", resetScroll: true });
+                }
               },
               () => {
                 form.resetTouched();

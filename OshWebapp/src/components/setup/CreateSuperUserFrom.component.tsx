@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { isEmail, matches, matchesField, useForm } from "@mantine/form";
 import { Button, Card, Grid, PasswordInput, Stack, Stepper, Text, TextInput, Title } from "@mantine/core";
 import { useNavigate } from "@tanstack/react-router";
+import { open } from "../../api/api.ts";
+import { ErrorHandler } from "../../api/ErrorHadler.ts";
 
 function CreateSuperUserFrom() {
   const form = useForm({
@@ -38,9 +40,11 @@ function CreateSuperUserFrom() {
           <form
             style={{ width: "100%" }}
             onSubmit={form.onSubmit(
-              (values) => {
-                // todo
-                console.log(values);
+              async (values) => {
+                const data = await open().post("/api/setup/user", values).catch(ErrorHandler);
+                if (data) {
+                  await navigate({ to: "/setup/organization", resetScroll: true });
+                }
               },
               () => {
                 form.resetTouched();
@@ -135,13 +139,6 @@ function CreateSuperUserFrom() {
                 ) : (
                   <span>Создать супер пользователя</span>
                 )}
-              </Button>
-              {/* todo*/}
-              <Button
-                variant="default"
-                size="xs"
-                onClick={() => navigate({ to: "/setup/organization", resetScroll: true })}>
-                <span style={{ color: "#1c8139" }}>Создать</span>
               </Button>
             </Card>
           </form>
