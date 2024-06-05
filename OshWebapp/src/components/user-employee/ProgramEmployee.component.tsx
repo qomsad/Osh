@@ -32,7 +32,7 @@ function ProgramEmployee() {
   return (
     <AppShellEmployee>
       <AppShellMain>
-        {!program?.startTraining ? <AssigmentLearning assigmentId={id} /> : <AssigmentTraining assigmentId={id} />}
+        {!program?.startTraining ? <AssigmentLearning assigmentId={id} reload={load} /> : <AssigmentTraining assigmentId={id} />}
       </AppShellMain>
     </AppShellEmployee>
   );

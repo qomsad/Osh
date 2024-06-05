@@ -5,12 +5,14 @@ import { auth } from "../../api/api.ts";
 import { useEffect, useState } from "react";
 import { SearchPageRes } from "../../models/SearchPageRes.ts";
 import { PreviewMaterial } from "../user-admin/material-content/PreviewMaterial.component.tsx";
+import { Assigment } from "../../models/domain/Assigment.ts";
 
 interface AssigmentLearningProps {
   assigmentId: number;
+  reload: () => Promise<void>;
 }
 
-function AssigmentLearning({ assigmentId }: AssigmentLearningProps) {
+function AssigmentLearning({ assigmentId, reload }: AssigmentLearningProps) {
   const api = getQuery<Learning>(`/api/employee/osh-program/${assigmentId}/learning`, auth);
 
   const [learnings, setLearnings] = useState<SearchPageRes<Learning>>();
@@ -54,7 +56,19 @@ function AssigmentLearning({ assigmentId }: AssigmentLearningProps) {
                   );
                 })}
             </Card>
-            <Button>Приступить к тесту</Button>
+            <Button
+              onClick={async () => {
+                const assigmmentApi = getQuery<Assigment>("/api/employee/osh-program", auth);
+                const res = await assigmmentApi.getById(assigmentId);
+                if (res) {
+                  if (res.startTraining === null) {
+                    await auth().patch(`/api/employee/osh-program/${assigmentId}/start-training`);
+                    await reload();
+                  }
+                }
+              }}>
+              Приступить к тесту
+            </Button>
           </Stack>
         </Stack>
       </Grid.Col>

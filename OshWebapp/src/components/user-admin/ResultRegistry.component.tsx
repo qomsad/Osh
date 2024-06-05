@@ -84,11 +84,21 @@ function ResultRegistry() {
                   return `${row.oshProgram.name}`;
                 },
                 header: "Программа обучения",
-                size: 300,
+                size: 100,
               },
               {
-                accessorKey: "assignmentDate",
-                header: "Назначена",
+                accessorKey: "result.learningResult",
+                header: "Теория",
+                size: 50,
+              },
+              {
+                accessorKey: "result.trainingResult",
+                header: "Практика",
+                size: 50,
+              },
+              {
+                accessorKey: "result.timestamp",
+                header: "Дата",
                 size: 150,
                 //@ts-ignore
                 cell: (cell) => new Date(cell?.getValue<Date>()).toLocaleString(),

@@ -10,5 +10,12 @@ export interface Assigment {
   assignmentDate: string;
   startLearning?: string;
   startTraining?: string;
-  result?: any;
+  result?: Result;
+}
+
+export interface Result {
+  id: number;
+  learningResult: number;
+  trainingResult: number;
+  timestamp: string;
 }
