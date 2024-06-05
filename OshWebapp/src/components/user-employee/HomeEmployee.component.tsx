@@ -1,5 +1,7 @@
+import { AppShellEmployee } from "./AppShellEmployee.component.tsx";
+
 function HomeEmployee() {
-  return <>HomeEmployee</>;
+  return <AppShellEmployee>HomeEmployee</AppShellEmployee>;
 }
 
 export { HomeEmployee };
