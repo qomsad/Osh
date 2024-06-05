@@ -43,8 +43,6 @@ function ViewQuestion({ id, api, onOk, onCancel }: ViewQuestionProps) {
         };
         form.setFieldValue("answers", fdata.answers);
         form.resetDirty(fdata);
-        console.log(form.getValues());
-        console.dir(form.key("answers.0.value"));
       }
     });
   }

@@ -76,8 +76,8 @@ function MaterialTraining({ programId }: MaterialTrainingProps) {
         pageSizes={["5", "10", "25", "50"]}
         columns={[
           {
-            accessorKey: "id",
-            header: "#",
+            accessorKey: "index",
+            header: "№",
             size: 20,
           },
           {

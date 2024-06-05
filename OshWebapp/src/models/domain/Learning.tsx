@@ -1,5 +1,6 @@
 export interface Learning {
   id: number;
+  index?: number,
   name: string;
   text: string;
   learningSectionFile: LearningSectionFile;

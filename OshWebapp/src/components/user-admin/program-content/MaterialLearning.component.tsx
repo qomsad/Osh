@@ -92,9 +92,9 @@ function MaterialLearning({ programId }: MaterialLearningProps) {
         pageSizes={["5", "10", "25", "50"]}
         columns={[
           {
-            accessorKey: "id",
-            header: "#",
-            size: 60,
+            accessorKey: "index",
+            header: "№",
+            size: 20,
           },
           {
             accessorKey: "name",

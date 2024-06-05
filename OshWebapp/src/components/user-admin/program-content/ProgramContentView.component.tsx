@@ -125,7 +125,6 @@ function ProgramContentView() {
                       autoAssignmentType: "FullManual",
                       trainingSuccessRate: parseFloat(values.trainingSuccessRate),
                     };
-                    console.log(val);
                     setLoading(true);
                     const res = await programApi.update(parseInt(id), { ...val });
                     setLoading(false);

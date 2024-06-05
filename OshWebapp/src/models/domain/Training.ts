@@ -1,5 +1,6 @@
 export interface Training {
   id: number;
+  index?: number;
   questionType: string;
   rate: number;
   question: string;
