@@ -52,7 +52,11 @@ public class OshProgramAssignmentService(
     public object? GetFiltered(RequestPageSortedFiltered request)
     {
         var page = repository.GetFiltered(request,
-            query => repository.OrganizationScope(privilege.GetCurrentAdministratorOrganization(), query));
+            query =>
+            {
+                query = query.OrderByDescending(e => e.AssignmentDate);
+                return repository.OrganizationScope(privilege.GetCurrentAdministratorOrganization(), query);
+            });
         return page.MapPageSortedFiltered(mapper.Map<IEnumerable<OshProgramAssignmentViewRead>>);
     }
 
