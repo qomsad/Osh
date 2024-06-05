@@ -152,8 +152,20 @@ function MaterialTraining({ programId }: MaterialTrainingProps) {
           api={api}
         />
       </Modal>
-      <Modal opened={editOpen} onClose={() => setEditOpen(false)} title={<Text fw={700}>Просмотр вопроса</Text>}>
-        <ViewQuestion id={editId} api={api} />
+      <Modal
+        opened={editOpen}
+        onClose={() => setEditOpen(false)}
+        title={<Text fw={700}>Просмотр вопроса</Text>}
+        size="lg">
+        <ViewQuestion
+          id={editId}
+          api={api}
+          onOk={async () => {
+            setEditOpen(false);
+            await load();
+          }}
+          onCancel={() => setEditOpen(false)}
+        />
       </Modal>
       <Modal opened={deleteOpen} onClose={() => setDeleteOpen(false)} title={<Text fw={700}>Удаление вопроса</Text>}>
         <DeleteAction
