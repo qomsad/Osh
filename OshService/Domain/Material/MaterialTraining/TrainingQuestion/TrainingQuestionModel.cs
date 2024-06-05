@@ -14,6 +14,9 @@ public class TrainingQuestionModel
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public required long Id { get; set; }
 
+    [Column("index")]
+    public required int Index { get; set; }
+
     [Column("type")]
     public TrainingQuestionType QuestionType { get; set; }
 

@@ -32,6 +32,7 @@ public class LearningSectionService(
 
         var entity = mapper.Map<LearningSectionModel>(view);
         entity.OshProgramId = program.Id;
+        entity.Index = repository.GetLastIndex(programId, organizationId);
         repository.Create(entity);
 
         var result = repository.Get().FirstOrDefault(e => e.Id == entity.Id);
@@ -41,7 +42,11 @@ public class LearningSectionService(
     public object? GetPage(long programId, RequestPage request)
     {
         var page = repository.GetPaginated(request,
-            query => repository.OrganizationScope(programId, privilege.GetCurrentAdministratorOrganization(), query));
+            query =>
+            {
+                query = query.OrderBy(e => e.Index);
+                return repository.OrganizationScope(programId, privilege.GetCurrentAdministratorOrganization(), query);
+            });
 
         return page.MapPage(mapper.Map<IEnumerable<LearningSectionViewRead>>);
     }
