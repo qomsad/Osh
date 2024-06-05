@@ -30,10 +30,4 @@ public class TrainingQuestionRepository(DatabaseContext context) : Repository<Tr
             entity.OshProgramId == programId
             && entity.OshProgram.OrganizationId == organizationId);
     }
-
-    public int GetLastIndex(long programId, long organizationId)
-    {
-        return Get().Count(entity =>
-            entity.OshProgramId == programId && entity.OshProgram.OrganizationId == organizationId) + 1;
-    }
 }

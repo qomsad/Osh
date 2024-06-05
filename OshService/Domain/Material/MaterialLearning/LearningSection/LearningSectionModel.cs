@@ -13,9 +13,6 @@ public class LearningSectionModel
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public required long Id { get; set; }
 
-    [Column("index")]
-    public required int Index { get; set; }
-
     [Column("name"), MaxLength(255)]
     public required string Name { get; set; }
 

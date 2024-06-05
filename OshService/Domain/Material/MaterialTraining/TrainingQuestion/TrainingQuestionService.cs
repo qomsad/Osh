@@ -32,7 +32,6 @@ public class TrainingQuestionService(
 
         var entity = mapper.Map<TrainingQuestionModel>(view);
         entity.OshProgramId = program.Id;
-        entity.Index = repository.GetLastIndex(programId, organizationId);
         repository.Create(entity);
 
         var result = repository.Get().FirstOrDefault(e => e.Id == entity.Id);
@@ -44,11 +43,19 @@ public class TrainingQuestionService(
         var page = repository.GetPaginated(request,
             query =>
             {
-                query = query.OrderBy(e => e.Index);
+                query = query.OrderBy(e => e.Id);
                 return repository.OrganizationScope(programId, privilege.GetCurrentAdministratorOrganization(), query);
             });
 
-        return page.MapPage(mapper.Map<IEnumerable<TrainingQuestionViewRead>>);
+        return page.MapPage(cl =>
+        {
+            var dest = mapper.Map<IEnumerable<TrainingQuestionViewRead>>(cl).ToList();
+            for (var i = 0; i < dest.Count; i++)
+            {
+                dest[i].Index = i + 1;
+            }
+            return dest;
+        });
     }
 
     public Result<TrainingQuestionStatusEnum> GetById(long programId, long sectionId)
