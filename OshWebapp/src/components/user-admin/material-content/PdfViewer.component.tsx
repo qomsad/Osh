@@ -75,7 +75,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ fileUrl }) => {
         <>
           <Grid>
             <Grid.Col span={2}>
-              <Group>
+              <Group w="400px">
                 <ActionIcon onClick={decreaseScale} disabled={scale <= 0.5} color="dark">
                   <ZoomOut />
                 </ActionIcon>
@@ -93,7 +93,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ fileUrl }) => {
           </Grid>
 
           <Card shadow="sm" radius="md" withBorder>
-            <div ref={viewerRef} onScroll={onPageChange} style={{ height: "65vh", overflowY: "scroll", width: "100%" }}>
+            <div ref={viewerRef} onScroll={onPageChange} style={{ height: "63vh", overflowY: "scroll", width: "100%" }}>
               <Document file={pdfData} onLoadSuccess={onDocumentLoadSuccess}>
                 {Array.from(new Array(numPages), (_, index) => (
                   <Page key={`page_${index + 1}`} pageNumber={index + 1} scale={scale} />

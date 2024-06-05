@@ -24,9 +24,6 @@ function AppShellEmployee({ children }: AppShellEmployeeProps) {
               <UnstyledButton component={Link} to="/a">
                 <Text>Программы обучения</Text>
               </UnstyledButton>
-              <UnstyledButton component={Link} to="/a/results">
-                <Text>Результаты</Text>
-              </UnstyledButton>
             </Group>
           </Group>
           <Group h="100%" align="center">

@@ -21,7 +21,6 @@ import { Route as AdminSpecialtyImport } from './routes/admin/specialty'
 import { Route as AdminResultImport } from './routes/admin/result'
 import { Route as AdminEmployeeImport } from './routes/admin/employee'
 import { Route as AdminAssignmentImport } from './routes/admin/assignment'
-import { Route as AResultsImport } from './routes/a/results'
 import { Route as AdminProgramIndexImport } from './routes/admin/program/index'
 import { Route as AdminProgramCreateImport } from './routes/admin/program/create'
 import { Route as AdminProgramIdImport } from './routes/admin/program/$id'
@@ -79,11 +78,6 @@ const AdminAssignmentRoute = AdminAssignmentImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AResultsRoute = AResultsImport.update({
-  path: '/a/results',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const AdminProgramIndexRoute = AdminProgramIndexImport.update({
   path: '/admin/program/',
   getParentRoute: () => rootRoute,
@@ -113,13 +107,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/a/results': {
-      id: '/a/results'
-      path: '/a/results'
-      fullPath: '/a/results'
-      preLoaderRoute: typeof AResultsImport
       parentRoute: typeof rootRoute
     }
     '/admin/assignment': {
@@ -220,7 +207,6 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
-  AResultsRoute,
   AdminAssignmentRoute,
   AdminEmployeeRoute,
   AdminResultRoute,
@@ -245,7 +231,6 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/a/results",
         "/admin/assignment",
         "/admin/employee",
         "/admin/result",
@@ -263,9 +248,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/": {
       "filePath": "index.tsx"
-    },
-    "/a/results": {
-      "filePath": "a/results.tsx"
     },
     "/admin/assignment": {
       "filePath": "admin/assignment.tsx"

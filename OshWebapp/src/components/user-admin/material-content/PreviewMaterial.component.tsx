@@ -21,7 +21,7 @@ function PreviewMaterial({ api, learningId }: PreviewMaterialProps) {
 
   useEffect(() => {
     (async () => await fetchData())();
-  }, []);
+  }, [learningId]);
 
   return (
     <Stack>

@@ -30,6 +30,7 @@ function HomeEmployee() {
           <SimpleGrid cols={3}>
             {programs.map((program) => (
               <Program
+                key={program.id}
                 specialty={program.oshProgram.specialty.name}
                 name={program.oshProgram.name}
                 date={program.assignmentDate}
